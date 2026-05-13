@@ -1,3 +1,4 @@
 module.exports = {
-  kangaSection: 'typography'
+  kangaSection: 'typography',
+  kangaSectionOrder: 3
 }

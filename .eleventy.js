@@ -186,6 +186,7 @@ module.exports = function (eleventyConfig) {
       if (!groupedSections.has(section)) {
         groupedSections.set(section, {
           title: section,
+          order: item.data.kangaSectionOrder ?? Infinity,
           items: []
         })
       }
@@ -198,7 +199,7 @@ module.exports = function (eleventyConfig) {
     }
 
     return Array.from(groupedSections.values())
-      .sort((a, b) => a.title.localeCompare(b.title))
+      .sort((a, b) => a.order - b.order)
       .map((section) => ({
         ...section,
         items: section.items.sort((a, b) => a.title.localeCompare(b.title))
