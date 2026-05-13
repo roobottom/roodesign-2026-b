@@ -11,6 +11,8 @@ const markdownItShortcode = require('markdown-it-shortcode-tag')
 
 // Filters
 const date = require('./lib/filters/date.js')
+const dateDiff = require('./lib/filters/date-diff.js')
+const daysToPeriod = require('./lib/filters/days-to-period.js')
 const similarPosts = require('./lib/filters/similar-posts.js')
 const slugify = require('./lib/filters/slugify.js')
 const smartypants = require('./lib/filters/smartypants.js')
@@ -22,6 +24,7 @@ const leadingZero = require('./lib/filters/leading-zero.js')
 const { buildResponsiveImageManifest, renderResponsiveImage, getResponsiveImageUrl } = require('./lib/images/responsive.js')
 
 // Shortcodes
+const exampleShortcode = require('./lib/shortcodes/example.js')
 const figureShortcode = require('./lib/shortcodes/figure.js')
 const statusNamesShortcode = require('./lib/shortcodes/statusNames.js')
 
@@ -58,6 +61,8 @@ module.exports = function (eleventyConfig) {
   // Filters
   // ---------------------------------------------------------------------------
   eleventyConfig.addFilter('date', date)
+  eleventyConfig.addFilter('dateDiff', dateDiff)
+  eleventyConfig.addFilter('daysToPeriod', daysToPeriod)
   eleventyConfig.addFilter('similarPosts', similarPosts)
   eleventyConfig.addFilter('slugify', slugify)
   eleventyConfig.addFilter('smartypants', smartypants)
@@ -100,6 +105,8 @@ module.exports = function (eleventyConfig) {
     return figureShortcode({ url, alt, caption, classes, link, transform: transformType })
   })
 
+  eleventyConfig.addShortcode('example', (url, height) => exampleShortcode(url, height))
+
   eleventyConfig.addShortcode('responsiveImage', (url, options = {}) =>
     renderResponsiveImage({ url, ...options })
   )
@@ -117,6 +124,7 @@ module.exports = function (eleventyConfig) {
     .use(markdownItAbbr)
     .use(markdownItFootnote)
     .use(markdownItShortcode, {
+      example: { render: (attrs) => exampleShortcode(attrs.url, attrs.height) },
       figure: { render: (attrs) => figureShortcode(attrs) },
       statusNames: { render: () => statusNamesShortcode() }
     })
@@ -147,6 +155,51 @@ module.exports = function (eleventyConfig) {
       .filter(p => !p.data.eleventyExcludeFromCollections)
       .reverse()
   )
+
+  eleventyConfig.addCollection('kangaPages', (api) =>
+    api.getFilteredByGlob('src/kanga/**/*.md')
+      .filter((item) => {
+        const inputPath = item.inputPath.split(path.sep).join('/')
+        return !inputPath.endsWith('/src/kanga/index.md') && inputPath !== 'src/kanga/index.md' && !inputPath.includes('/example/')
+      })
+      .sort((a, b) => a.data.title.localeCompare(b.data.title))
+  )
+
+  eleventyConfig.addCollection('kanga', (api) => {
+    const groupedSections = new Map()
+    const pages = api.getFilteredByGlob('src/kanga/**/*.md')
+      .filter((item) => {
+        const inputPath = item.inputPath.split(path.sep).join('/')
+        return !inputPath.endsWith('/src/kanga/index.md') && inputPath !== 'src/kanga/index.md' && !inputPath.includes('/example/')
+      })
+
+    for (const item of pages) {
+      const section = item.data.kangaSection
+      if (!section) {
+        continue
+      }
+
+      if (!groupedSections.has(section)) {
+        groupedSections.set(section, {
+          title: section,
+          items: []
+        })
+      }
+
+      groupedSections.get(section).items.push({
+        title: item.data.title,
+        slug: item.data.kangaSlug,
+        url: item.url
+      })
+    }
+
+    return Array.from(groupedSections.values())
+      .sort((a, b) => a.title.localeCompare(b.title))
+      .map((section) => ({
+        ...section,
+        items: section.items.sort((a, b) => a.title.localeCompare(b.title))
+      }))
+  })
 
   eleventyConfig.addCollection('subjects', (api) => {
     const tags = new Set()

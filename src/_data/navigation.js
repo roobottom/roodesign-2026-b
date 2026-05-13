@@ -5,6 +5,10 @@ module.exports = {
       title: 'Articles',
       id: 'articles'
     }, {
+      url: '/kanga/',
+      title: 'Kanga',
+      id: 'kanga'
+    }, {
       url: '/subjects/',
       title: 'Subjects',
       id: 'subjects'

@@ -1,0 +1,12 @@
+---
+title: Error summary
+---
+{% from 'components/errorSummary.njk' import errorSummary as errorSummary %}
+
+{{ errorSummary({
+  title: 'Oh boy, there sure is a problem over here buddy',
+  items: {
+    'name': 'You must tell me your name',
+    'message': 'You must write a message'
+  }
+}) }}

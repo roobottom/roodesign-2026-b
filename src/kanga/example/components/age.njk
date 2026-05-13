@@ -1,0 +1,25 @@
+---
+title: Kid’s Age
+---
+{% from 'components/age.njk' import age as age %}
+
+<p>{{ age({
+  dob: '2010-01-01', 
+  date: '2022-09-07', 
+  name: 'Zanthar', 
+  emoji: '👨‍👩‍👧'
+}) }}</p>
+
+<p>{{ age({
+  dob: '2010-01-01', 
+  date: '2010-01-23', 
+  name: 'Peanut', 
+  emoji: '👨‍👩‍👧'
+}) }}</p>
+
+<p>{{ age({
+  dob: '2010-01-01', 
+  date: '2001-01-23', 
+  name: 'Facsimile', 
+  emoji: '👨‍👩‍👧'
+}) }}</p>

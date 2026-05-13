@@ -1,0 +1,18 @@
+---
+title: Meta
+---
+{% from 'components/meta.njk' import meta as meta %}
+{% from 'components/tags.njk' import tags as tags %}
+
+{{ meta({
+  items: [
+    {
+      key: 'Date',
+      value: '19 April 2023'
+    },
+    {
+      key: 'Subjects',
+      value: tags(['cheese','crackers'])
+    }
+  ]
+}) }}
