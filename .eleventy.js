@@ -105,7 +105,9 @@ module.exports = function (eleventyConfig) {
     return figureShortcode({ url, alt, caption, classes, link, transform: transformType })
   })
 
-  eleventyConfig.addShortcode('example', (url, height) => exampleShortcode(url, height))
+  eleventyConfig.addShortcode('example', function (exampleRef, height) {
+    return exampleShortcode(exampleRef, height, this)
+  })
 
   eleventyConfig.addShortcode('responsiveImage', (url, options = {}) =>
     renderResponsiveImage({ url, ...options })
@@ -124,7 +126,9 @@ module.exports = function (eleventyConfig) {
     .use(markdownItAbbr)
     .use(markdownItFootnote)
     .use(markdownItShortcode, {
-      example: { render: (attrs) => exampleShortcode(attrs.url, attrs.height) },
+      example: {
+        render: (attrs, env) => exampleShortcode(attrs.url || attrs.name || attrs.variant || 'default', attrs.height, env)
+      },
       figure: { render: (attrs) => figureShortcode(attrs) },
       statusNames: { render: () => statusNamesShortcode() }
     })
@@ -160,7 +164,7 @@ module.exports = function (eleventyConfig) {
     api.getFilteredByGlob('src/kanga/**/*.md')
       .filter((item) => {
         const inputPath = item.inputPath.split(path.sep).join('/')
-        return !inputPath.endsWith('/src/kanga/index.md') && inputPath !== 'src/kanga/index.md' && !inputPath.includes('/example/')
+        return !inputPath.endsWith('/src/kanga/index.md') && inputPath !== 'src/kanga/index.md' && !inputPath.includes('/examples/')
       })
       .sort((a, b) => a.data.title.localeCompare(b.data.title))
   )
@@ -170,7 +174,7 @@ module.exports = function (eleventyConfig) {
     const pages = api.getFilteredByGlob('src/kanga/**/*.md')
       .filter((item) => {
         const inputPath = item.inputPath.split(path.sep).join('/')
-        return !inputPath.endsWith('/src/kanga/index.md') && inputPath !== 'src/kanga/index.md' && !inputPath.includes('/example/')
+        return !inputPath.endsWith('/src/kanga/index.md') && inputPath !== 'src/kanga/index.md' && !inputPath.includes('/examples/')
       })
 
     for (const item of pages) {
