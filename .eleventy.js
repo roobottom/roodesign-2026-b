@@ -36,12 +36,12 @@ module.exports = function (eleventyConfig) {
   eleventyConfig.on('eleventy.before', async () => {
     console.time('[build] prebuild')
     console.log('[build] Compiling Sass...')
-    const result = sass.compile('src/assets/sass/roobottom-2022.scss', {
+    const result = sass.compile('src/assets/sass/roodesign.scss', {
       loadPaths: ['src/assets/sass'],
       style: 'expanded'
     })
     fs.mkdirSync('dist/assets/css', { recursive: true })
-    fs.writeFileSync('dist/assets/css/roobottom-2022.css', result.css)
+    fs.writeFileSync('dist/assets/css/roodesign.css', result.css)
     console.log('[build] Sass complete. Preparing responsive images...')
 
     await buildResponsiveImageManifest()
