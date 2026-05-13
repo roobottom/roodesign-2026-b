@@ -1,0 +1,31 @@
+{% extends 'layouts/wrapper.njk' %}
+
+{% block siteHeader %}{% endblock %}
+
+{% block main %}
+  <section class="container container--ultra space--margin-bottom-l space--margin-top-xl  prose">
+    <h1>{{ title }}</h1>
+    <p class="type-scale-1">{{ introduction }}</p>
+  </section>
+  {% for page in pages %}
+    {% set background = page.background %}
+    <div style="background-color: {{ background }};" class="page-background">
+    <section class="container container--ultra space--margin-bottom-l page" >
+      <div class="page-content prose">
+        <h2>{{ page.title }}</h2>
+        {{ page.background }}
+        {{ page.content | markdown | safe }}
+      </div>
+      {% if page.gallery %}
+        <div class="masonry">
+          {% for image in page.gallery %}
+            <div class="masonry-item masonry-item--{{ collections.metadata[image.src].orientation }} {{ 'masonry-item--big' if image.featured }}">
+              <img src="{{ image.src }}?resize=600&quality=60" alt="{{ image.alt }}" class="masonry-image" />
+            </div>
+          {% endfor %}
+        </div>
+      {% endif %}
+    </section>
+    </div>
+  {% endfor %}
+{% endblock %}

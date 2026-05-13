@@ -1,0 +1,119 @@
+{% macro footerNavigation(params) %}
+<h4 class="site-footer-title h5" id="{{ params.title | lower | slugify }}">{{ params.title }}</h4>
+<nav aria-labelledby="{{ params.title | lower | slugify }}">
+  <ul class="site-footer-navigation">
+    {% for item in params.items %}
+      <li><a href="{{ item.url }}">{{ item.title }}</a></li>
+    {% endfor %}
+  </ul>
+</nav>
+{% endmacro %}
+
+{% from 'components/title.njk' import title as pagetitle %}
+{% from 'components/breadcrumbs.njk' import breadcrumbs as breadcrumbsList %}
+
+<!doctype html>
+<html lang="en-gb" data-scroll="0">
+    <head>
+      <meta charset="utf-8">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <title>{% block pageTitle %}{{ title }} - Jon's website{% endblock %}</title>
+
+      <link rel="token_endpoint" href="https://indiekit.roobottom.com/auth/token">
+      <link rel="me" href="https://github.com/roobottom">
+      <link rel="webmention" href="https://webmention.io/roobottom.com/webmention" />
+      <link rel="pingback" href="https://webmention.io/roobottom.com/xmlrpc" />
+
+      {% block stylesheets %}
+      <link rel="stylesheet" href="/assets/css/roobottom-2022.css">
+      {% endblock %}
+
+      <link rel="alternate" type="application/atom+xml" title="RSS feed for Jon's website" href="/feed.xml" />
+    </head>
+    <body class="no-js section-{{ section_id }} {% block bodyClasses %}{% endblock %}">
+      {% block body %}
+
+      {% block accessibilityMenu %}
+      <nav class="accessibility-menu container">
+        <a href="#main">Skip to content</a>
+      </nav>
+      {% endblock %}
+
+      {% block siteHeader %}
+      <header class="site-header">
+          <nav class="container navigation" aria-label="Main">
+          <a href="/" class="navigation__sitename" aria-labelledby="sitename">
+              <span id="sitename">Jon's website</span> <span class="visually-hidden">homepage</span>
+          </a>
+          <ul class="navigation__items">
+              {% for item in navigation.main %}
+                  <li><a href="{{ item.url }}"{% if item.id == section_id %} class="active" aria-current="page"{% endif %}>{{ item.title }}</a></li>
+              {% endfor %}
+          </ul>
+          </nav>
+      </header>
+      {% endblock %}
+
+      {% block main %}
+      <main class="container" id="main">
+
+          {% block beforeContent %}
+          {{ breadcrumbsList({
+            classes: 'space--margin-bottom-s',
+            items: breadcrumbs
+          }) if breadcrumbs }}
+          {{ pagetitle({
+            classes: 'space--margin-bottom-l',
+            text: title
+          }) if title }}
+          {% if introduction %}
+          <div class="prose prose--flow space--margin-bottom-l">
+            <p class="type-scale-1">{{ introduction }}</p>
+          </div>
+          {% endif %}
+          {% endblock %}
+
+          {% block content %}
+          {{ content | safe }}
+          {% endblock %}
+
+      </main>
+      {% endblock %}
+
+      {% block siteFooter %}
+      <footer class="site-footer">
+        <div class="container">
+          <div class="site-footer-content">
+              <p>&copy; Jon Roobottom</p>
+          </div>
+          <ul class="site-footer-items">
+            <li>{{
+            footerNavigation({
+              title: 'Explore this site',
+              items: navigation.footer
+            }) }}</li>
+            <li>{{
+            footerNavigation({
+              title: 'Me, elsewhere on the web',
+              items: navigation.elsewhere
+            }) }}</li>
+            <li>{{
+            footerNavigation({
+              title: 'Consume my content',
+              items: navigation.consume
+            }) }}</li>
+          </ul>
+        </div>
+      </footer>
+      {% endblock %}
+
+      {% block scripts %}
+      <script src="/assets/js/app.js"></script>
+      <script src="{{ global.cdn }}prismjs@v1.x/components/prism-core.min.js"></script>
+      <script src="{{ global.cdn }}prismjs@v1.x/plugins/autoloader/prism-autoloader.min.js"></script>
+      {% endblock %}
+
+      {% endblock %}
+    </body>
+</html>

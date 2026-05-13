@@ -1,0 +1,9 @@
+{
+  "layout": "layouts/article.njk",
+  "type": "stories",
+  "section_id": "stories",
+  "breadcrumbs": [
+    { "title": "Home", "url": "/" },
+    { "title": "Stories", "url": "/stories/" }
+  ]
+}

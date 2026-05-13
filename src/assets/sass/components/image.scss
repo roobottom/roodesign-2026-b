@@ -1,0 +1,60 @@
+@use "../core/theme" as *;
+@use "sass:map";
+img {
+  max-width: 100%;
+  display: block;
+}
+
+figure {
+  >img {
+    width: calc(100% + 2 * var(--space-m));
+    margin-left: calc(-1 * var(--space-m));
+    max-width: none; 
+  }
+
+  &.browser > img {
+    width: calc(100% + 2 * var(--space-s));
+    margin-left: calc(-1 * var(--space-s));
+  }
+
+  // Read the tablet/desktop breakpoint from the shared Sass map.
+  @media #{map.get($bp, mid)} {
+    >img, &.browser > img  {
+      width: 100%;
+      margin-left: 0;
+    }
+  }
+
+  a {
+    display: block;
+  }
+
+  &.shadow>img {
+    // `fade()` is a custom Sass function that outputs an rgba version of the colour.
+    box-shadow: 0 0 20px fade(black, 10%);
+  }
+
+  &.browser>img {
+    border: var(--figure-browser-border);
+    padding-top: 26px;
+    border-radius: var(--figure-browser-radius);
+    box-shadow: var(--figure-browser-shadow);
+    background: var(--figure-browser-frame-colour);
+  }
+
+  &.right {
+    float: right;
+    margin-left: var(--space-s);
+    margin-bottom: var(--space-s);
+    max-width: 50%;
+  }
+
+}
+
+figcaption {
+  font-size: var(--step--2);
+  margin-top: var(--space-xs);
+  color: var(--c-text-light);
+  @include type-family-alt;
+  @include container-prose-flow;
+}

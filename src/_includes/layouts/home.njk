@@ -1,0 +1,25 @@
+{% extends 'layouts/base.njk' %}
+{% from 'components/articleCard.njk' import articleCard as articleCard %}
+{% from 'components/title.njk' import title as pagetitle %}
+
+{% block beforeContent %}
+{{ pagetitle({
+  classes: 'homepage-title',
+  text: title
+}) }}
+{% endblock %}
+
+{% block content %}
+<div class="prose space--margin-bottom-l">
+  {{ content | safe }}
+</div>
+<ul class="list list--grid">
+  {% for article in collections.articles %}
+    {% if article.data.featured %}
+    <li class="list-item">
+      {{ articleCard(article) }}
+    </li>
+    {% endif %}
+  {% endfor %}
+</ul>
+{% endblock %}

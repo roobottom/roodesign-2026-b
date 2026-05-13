@@ -1,0 +1,56 @@
+@use "../core/theme" as *;
+@use "sass:map";
+.navigation {
+
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    @include type-family-headline;
+
+    
+
+    &__sitename {
+        @include type-style-link($underline:none);
+        font-size: var(--step-1);
+        line-height: var(--line-height--supertight);
+        flex: 0;
+    }
+
+    li {
+        list-style: none;
+        margin-bottom: var(--space-xxs);
+    }
+
+    &__items a {
+        @include type-style-link($underline: none);
+        //padding: var(--space-xxs);
+    }
+
+
+    .active {
+        font-weight: bold;
+        text-decoration: none;
+        
+    }
+
+    &__items {
+        text-align: right;
+    }
+
+
+}
+
+// `map.get($bp, mid)` keeps the breakpoint name readable and the query centralised.
+@media #{map.get($bp, mid)} {
+    .navigation {
+        align-items: center;
+        &__items {
+            display: flex;
+            justify-content: space-between;
+        }
+        &__items li {
+            margin-left: var(--space-s);
+            margin-bottom: 0;
+        }
+    }
+}

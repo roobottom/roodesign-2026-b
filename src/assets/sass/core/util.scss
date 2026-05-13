@@ -1,0 +1,24 @@
+@use "sass:string";
+@use "sass:math";
+@use "settings" as *;
+
+// Utility for screen-reader-only content.
+.visually-hidden {  
+  clip: rect(0 0 0 0);  
+  clip-path: inset(50%);  
+  height: 1px;  
+  overflow: hidden;  
+  position: absolute;  
+  white-space: nowrap;  
+  width: 1px;
+}
+
+@mixin auto-grid-columns($fitorfill: fill, $min: 270, $gap: var(--space-m)) {
+  // Reusable responsive grid pattern: auto-fill/auto-fit with min card width.
+  display: grid;
+  grid-auto-flow: dense;
+  gap: $gap;
+  // `string.unquote("auto-#{$fitorfill}")` turns the interpolated text into the raw
+  // CSS keyword `auto-fill` or `auto-fit` so `repeat()` receives a valid identifier.
+  grid-template-columns: repeat(string.unquote("auto-#{$fitorfill}"), minmax(#{to-unit(math.div($min, $base), rem)}, 1fr));
+}

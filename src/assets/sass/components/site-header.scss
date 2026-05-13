@@ -1,0 +1,11 @@
+@use "../core/theme" as *;
+.site-header {
+
+  background: var(--c-site-header-background);
+  border-bottom: var(--c-site-header-border-bottom);
+
+  padding-bottom: var(--space-m);
+  padding-top: var(--space-m);
+  @include space-range(margin-bottom, xs, m);
+  
+}

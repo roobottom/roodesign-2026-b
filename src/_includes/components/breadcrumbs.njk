@@ -1,0 +1,15 @@
+{% macro breadcrumbs(params) %}
+<div class="breadcrumbs {{ params.classes }}">
+  <ol>
+  {% for item in params.items %}
+    <li>
+    {% if item.url -%}
+      <a href="{{ item.url }}">{{ item.title }}</a>
+    {%- else -%}
+      {{ item.title }}
+    {%- endif %}
+    </li>
+  {% endfor %}
+  </ol>
+</div>
+{% endmacro %}

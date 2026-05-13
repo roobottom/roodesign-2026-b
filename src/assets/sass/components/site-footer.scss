@@ -1,0 +1,48 @@
+@use "../core/theme" as *;
+@use "sass:map";
+.site-footer {
+
+  background: var(--c-site-footer-background);
+  border-top: var(--c-site-footer-border-top);
+  padding-bottom: var(--space-m);
+  margin-top: var(--space-xl);
+  position: relative;
+  
+
+  &-content {
+    padding-top: var(--space-s);
+    margin-bottom: var(--space-s);
+  }
+
+  &-items {
+    >li {
+      margin-bottom: var(--space-l);
+    }
+    @media #{map.get($bp, max)} {
+      @include auto-grid-columns;
+      >li {
+          margin-bottom: 0;
+        }
+    }
+  }
+
+  &-navigation {
+    display: block;
+    display: flex;
+    flex-wrap: wrap;
+    margin-bottom: var(--space-s);
+
+    li {
+      margin-right: var(--space-s);
+      list-style: none;
+    } 
+
+  }
+
+  a {
+    @include type-style-link();
+    padding: var(--space-xxs);
+    font-size: var(--step--1);
+  }
+
+}

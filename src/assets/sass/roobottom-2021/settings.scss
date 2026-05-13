@@ -1,0 +1,91 @@
+@use "../core/prelude" as *;
+
+$font-default: 'debut', sans-serif;
+$font-heading: 'bely', serif;
+$font-alt: 'DM Mono', monospace;
+
+@mixin make-colours($basecolour, $variablestub) {
+  @for $alpha from 1 through 20 {
+    $percent: $alpha * 5;
+    #{$variablestub}-#{$percent}: #{fade($basecolour, $percent)};
+  }
+}
+
+:root {
+  --font-default: 'debut', sans-serif;
+  --font-heading: 'bely', serif;
+  --font-alt: 'DM Mono', monospace;
+
+  //theme colours
+  --c-yellow: #FFC432;
+  @include make-colours(#FFC432, --c-yellow);
+
+  --c-orange: #FF5D1A;
+  @include make-colours(#FF5D1A, --c-orange);
+
+  --c-blue: #30BCED;
+  @include make-colours(#30BCED, --c-blue);
+
+  --c-pink: #F00699;
+  @include make-colours(#F00699, --c-pink);
+
+  //core colours
+  --c-text: #333333;
+  --c-text-light: #666666;
+  --c-border: var(--c-blue);
+
+  --c-link: #333333;
+  --c-link-hover: var(--c-pink);
+  --c-link-focus: var(--c-pink);
+
+  --c-error:   var(--c-pink);
+  --c-error-focus: var(--c-pink-50);
+
+  --box-shadow: 0 0 10px #{fade(black, 20%)};
+  --border-radius: .5rem;
+  --bullet: url("#{$path-images}bullet.svg");
+
+  //component settings
+  // -----------------
+
+  //site header
+  --c-site-header-background: linear-gradient(135deg, var(--c-blue-20) 0%, var(--c-yellow-20) 100%);
+  --c-site-header-border-bottom: 1px solid var(--c-blue);
+
+  //site footer
+  --c-site-footer-background: linear-gradient(135deg, var(--c-pink-20) 0%, var(--c-blue-40) 100%);
+  --c-site-footer-border-top: 1px solid var(--c-blue);
+
+  //callouts
+  --c-callout-background: var(--c-yellow-10);
+  --c-callout-border: var(--c-yellow);
+
+  //code
+  --c-code-background: var(--c-blue-5);
+  --c-code-border: 1px solid var(--c-blue);
+ 
+  //hr
+  --c-hr: var(--c-pink);
+
+  //tables
+  --table-border: 1px solid var(--c-blue);
+  --c-table-background: transparent;
+  --table-td-border: 1px solid var(--c-blue-20);
+  --table-padding: var(--space-xs);
+  --table-shadow: var(--box-shadow);
+
+  //form
+  --c-form-tint: darken(#30BCED, 20%);
+  --c-form-focus: #{fade(black, 20%)};
+
+  //card
+  --card-background: #FFF;
+
+  // breadcrumbs
+  --c-breadscrumbs-arrow: var(--c-pink);
+
+  //subnav
+  --subnav-border: 1px solid var(--c-border);
+  --subnav-background: #FFF;
+  --subnav-tint: var(--c-blue-10);
+}

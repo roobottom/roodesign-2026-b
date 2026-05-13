@@ -1,0 +1,38 @@
+@use "sass:map";
+@use "../core/prelude" as *;
+
+.list {
+  list-style: none;
+  margin-bottom: var(--space-l);
+
+  li:after {
+    content: "";
+    clear: both;
+    display: table;
+  }
+
+  li {
+    margin-bottom: var(--space-m);
+  }
+
+  &:not(&--grid) li {
+    padding-bottom: var(--space-m);
+    &:not(:last-child) {
+      border-bottom: 1px solid var(--c-border);
+    }
+  }
+
+}
+
+
+// This uses the `min` breakpoint string stored in the shared Sass breakpoint map.
+@media #{map.get($bp, min)} {
+
+  .list--grid {
+    @include auto-grid-columns;
+    li {
+      margin-bottom: 0;
+    }
+  }
+
+}

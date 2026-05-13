@@ -1,0 +1,22 @@
+---
+permalink: /feed.xml
+eleventyExcludeFromCollections: true
+---
+<?xml version="1.0" encoding="utf-8"?>
+<rss version="2.0">
+  <channel>
+    <title>Jon's website</title>
+    <link>https://roobottom.com/</link>
+    <description>Articles and stories from Jon Roobottom.</description>
+    <language>en-gb</language>
+    {% for post in collections.articles | slice(0, 20) %}
+    <item>
+      <title>{{ post.data.title | striptags | escape }}</title>
+      <link>https://roobottom.com{{ post.url }}</link>
+      <guid>https://roobottom.com{{ post.url }}</guid>
+      <pubDate>{{ post.date | date('ddd, DD MMM YYYY HH:mm:ss ZZ') }}</pubDate>
+      <description>{{ (post.data.introduction or post.data.summary or '') | striptags | escape }}</description>
+    </item>
+    {% endfor %}
+  </channel>
+</rss>

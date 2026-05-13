@@ -1,0 +1,12 @@
+{% extends 'layouts/base.njk' %}
+{% from 'components/articleCard.njk' import articleCard as articleCard %}
+
+{% block content %}
+<ul class="list list--grid">
+  {% for article in collections.articles %}
+    <li class="list-item">
+      {{ articleCard(article) }}
+    </li>
+  {% endfor %}
+</ul>
+{% endblock %}

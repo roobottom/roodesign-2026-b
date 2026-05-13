@@ -1,0 +1,28 @@
+{% from 'components/card.njk' import card as card %}
+
+{#
+  articleCard(article)
+  Accepts an 11ty collection item (article.data, article.page)
+#}
+{% macro articleCard(article) %}
+
+  {% set d = article.data %}
+  {% set articleUrl = article.url %}
+
+  {% set datePrefix %}
+    {% if d.created %}Last updated {% else %}First published {% endif %}
+  {% endset %}
+
+  {{ card({
+    title: d.title | safe,
+    summary: d.introduction or d.summary,
+    url: articleUrl,
+    cover: {
+      url: d.cover
+    } if d.cover,
+    date: {
+      datetime: d.date | date(''),
+      title: datePrefix + (d.date | date('DD MMMM YYYY'))
+    }
+  }) }}
+{% endmacro %}

@@ -1,0 +1,104 @@
+@use "sass:math";
+
+// Core design-system values reused across all themes and components.
+$width-min: 320;
+$width-max: 1100;
+$width-ultra: 1400;
+$line-length: 640;
+$base: 16;
+$grid-columns: 12;
+$grid-gap: var(--space-l);
+
+//breakpoints
+$bp: (
+  upto-min: "only screen and (max-width: #{$width-min}px)",
+  min: "only screen and (min-width: #{$width-min}px)",
+  mid: "only screen and (min-width: 520px)",
+  max: "only screen and (min-width: 980px)",
+  beyond-max: "only screen and (min-width: #{$width-max}px)",
+  min-only: "only screen and (min-width: #{$width-min}px) and (max-width: 520px)",
+  mid-only: "only screen and (min-width: 520px) and (max-width: 980px)",
+  max-only: "only screen and (min-width: 900px) and (max-width: #{$width-max}px)"
+);
+
+$type-min-scale: 1.2;
+$type-min-size: 17;
+$type-max-scale: 1.2;
+$type-max-size: 21;
+$typescale-up-steps: 10;
+$typescale-down-steps: 2;
+
+//paths
+$path-fonts: '/fonts/';
+$path-images: '/sprites/';
+
+// Spacing multipliers used to generate responsive spacing utility classes.
+$spacing: (
+  none: 0,
+  xxs: 0.25,
+  xs: 0.5,
+  s: 1,
+  m: 2,
+  l: 3,
+  xl: 4,
+  xxl: 5
+);
+
+// Sass function: take a unitless number like 16 and return 16rem/16px/etc.
+// This keeps the old LESS-style unit conversion in one reusable place.
+@function to-unit($value, $unit: null) {
+  // Helper that mirrors LESS unit() behaviour for the migrated code.
+  @if $unit == rem {
+    @return $value * 1rem;
+  }
+  @if $unit == px {
+    @return $value * 1px;
+  }
+  @if $unit == mm {
+    @return $value * 1mm;
+  }
+  @if $unit == pt {
+    @return $value * 1pt;
+  }
+  @return $value;
+}
+
+// Sass function: return the same colour with a different alpha value.
+// `fade(black, 20%)` becomes `rgba(black, 0.2)` in the compiled CSS.
+@function fade($color, $alpha) {
+  // Compatibility helper for LESS fade(color, alpha).
+  @if math.unit($alpha) == "%" {
+    @return rgba($color, math.div($alpha, 100%));
+  }
+  @return rgba($color, math.div($alpha, 100));
+}
+
+:root {
+  // These custom properties power fluid type/spacing calculations in other files.
+  --fluid-min-width: #{$width-min};
+  --fluid-max-width: #{$width-max};
+
+  --fluid-screen: 100vw;
+  // `to-unit()` and `math.div()` run at build time, while `calc()` runs in the browser.
+  // That combination lets Sass prepare the numbers and CSS keep them fluid at runtime.
+  --fluid-bp: calc((var(--fluid-screen) - var(--fluid-min-width) / #{$base} * 1rem) / (var(--fluid-max-width) - var(--fluid-min-width)));
+
+  --line-length: #{to-unit(math.div($line-length, $base), rem)};
+  --line-height: 1.67;
+  --line-height--loose: 1.75;
+  --line-height--tight: 1.1;
+  --line-height--supertight: 0.9;
+
+  --figure-browser-border: 1px solid #CCC;
+  --figure-browser-radius: 8px;
+  --figure-browser-frame-colour: #D9D9D9;
+  --figure-browser-shadow: 
+    inset 0 1px 0 white,
+    var(--box-shadow);
+}
+
+@media screen and (min-width: #{to-unit($width-max, px)}) {
+  :root {
+    --fluid-screen: calc(var(--fluid-max-width) * 1px);
+  }
+}

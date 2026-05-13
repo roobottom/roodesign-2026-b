@@ -1,0 +1,46 @@
+@use "../core/theme" as *;
+$gallery-space: calc(var(--space-s) / 2);
+$gallery-break: 1215px;
+
+.gallery {
+  >figure { 
+    max-width: var(--line-length);
+  }
+
+  >figure+figure {
+    margin-top: var(--space-m);
+  }
+
+  @media screen and (min-width: $gallery-break) {
+    display: grid;
+    grid-template-columns: var(--line-length) 1fr 1fr;
+    row-gap: var(--space-m);
+    width: 100%;
+    column-gap: var(--space-xs);
+    align-items: baseline;
+
+    >figure:nth-child(3n-1):last-child {
+      grid-column: span 2;
+      transform: translateY(var(--step-1));
+    }
+
+    >figure+figure {
+      margin-top: 0;
+      margin-left: calc(-1 * var(--space-l));
+      &:not(.browser) { outline: 6px solid var(--c-background); }
+      figcaption {
+        margin-left: var(--space-xs);
+      }
+    }
+
+    figure:first-child figcaption {
+      width: calc(100% - var(--space-l));
+    }
+  }
+}
+
+.mini-gallery {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: var(--space-s);
+}

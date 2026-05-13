@@ -1,0 +1,29 @@
+@use "../core/theme" as *;
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+
+  &-item {
+    margin-right: var(--space-s);
+    margin-bottom: var(--space-s);
+  }
+
+}
+
+
+
+.tag:not(&.token) {
+  @include type-style-link($underline: none);
+
+  .tag-title {
+    font-size: var(--step-1);
+  }
+
+  .tag-count {
+    color: var(--c-text-light);
+    font-size: var(--step--1);
+    @include type-family-alt;
+    text-decoration: none;
+  }
+
+}

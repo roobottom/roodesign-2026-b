@@ -1,0 +1,20 @@
+@use "../core/theme" as *;
+.meta {
+  color: var(--c-text-light);
+  @include type-family-alt;
+  font-size: var(--step--1);
+
+  dt {
+    font-weight: bold;
+  }
+
+  a {
+    @include type-style-link(var(--c-text-light), $underline: underline);
+  }
+
+
+  &-item:not(:first-child):not(:only-of-type) {
+    margin-top: var(--space-xs);
+  }
+
+}

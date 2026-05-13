@@ -1,0 +1,16 @@
+---
+title: Stories
+layout: layouts/default.njk
+section_id: stories
+permalink: /stories/index.html
+eleventyExcludeFromCollections: true
+---
+{% from 'components/articleCard.njk' import articleCard as articleCard %}
+
+<ul class="list list--grid">
+  {% for story in collections.stories %}
+    <li class="list-item">
+      {{ articleCard(story) }}
+    </li>
+  {% endfor %}
+</ul>

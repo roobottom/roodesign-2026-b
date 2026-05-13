@@ -1,0 +1,22 @@
+@use "sass:map";
+@use "../core/prelude" as *;
+
+@mixin generate-grid-columns($max-columns) {
+  // `@for` lets Sass generate `.grid-column--x1` to `.grid-column--x12` for us.
+  @for $n from 1 through $max-columns {
+    .grid-column--x#{$n} {
+      grid-column: span $n;
+    }
+  }
+}
+
+@include generate-grid-columns($grid-columns);
+
+// Named breakpoint lookup again, so grid layout changes in one shared place.
+@media #{map.get($bp, max)} {
+  .grid {
+    display: grid;
+    grid-template-columns: repeat($grid-columns, 1fr); 
+    gap: $grid-gap;
+  }
+}

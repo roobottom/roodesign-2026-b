@@ -1,0 +1,82 @@
+@use "sass:map";
+@use "sass:math";
+@use "../core/prelude" as *;
+
+// Gives one-off responsive spacing between two named spacing sizes.
+@mixin space-range($attr, $min-name, $max-name) {
+  // `map.get($spacing, $min-name)` reads a value from the Sass map declared in settings.
+  // That means `s`, `m`, `l`, etc. can be looked up by name instead of hard-coded.
+  $min: $type-min-size * map.get($spacing, $min-name);
+  $max: $type-max-size * map.get($spacing, $max-name);
+  #{$attr}: calc(#{to-unit(math.div($min, $base), rem)} + (#{$max} - #{$min}) * var(--fluid-bp));
+}
+
+@mixin space-class($type, $direction, $size) {
+  // Builds utility classes like .space--margin-top-m.
+  @if $direction == all {
+    .space--#{$type}-#{$direction}-#{$size} {
+      #{$type}: var(--space-#{$size});
+    }
+  } @else {
+    .space--#{$type}-#{$direction}-#{$size} {
+      #{$type}-#{$direction}: var(--space-#{$size});
+    }
+  }
+}
+
+@mixin bleed-class($name, $direction, $prefix: "") {
+  // Builds utility classes that let elements extend outside their container.
+  .#{$prefix}bleed-#{$direction}-#{$name} {
+    @if $direction == both {
+      margin-left: calc(-1 * var(--space-#{$name}));
+      margin-right: calc(-1 * var(--space-#{$name}));
+      width: calc(100% + (2 * var(--space-#{$name})));
+    } @else {
+      margin-#{$direction}: calc(-1 * var(--space-#{$name}));
+      width: calc(100% + var(--space-#{$name}));
+    }
+  }
+}
+
+@each $name, $modifier in $spacing {
+  // For each spacing token, emit CSS vars + spacing helpers.
+  $min: $type-min-size * $modifier;
+  $max: $type-max-size * $modifier;
+
+  :root {
+    --space-#{$name}: calc(#{to-unit(math.div($min, $base), rem)} + (#{$max} - #{$min}) * var(--fluid-bp));
+  }
+
+  @include space-class(margin, top, $name);
+  @include space-class(margin, bottom, $name);
+  @include space-class(margin, left, $name);
+  @include space-class(margin, right, $name);
+  @include space-class(margin, all, $name);
+  @include space-class(padding, top, $name);
+  @include space-class(padding, bottom, $name);
+  @include space-class(padding, left, $name);
+  @include space-class(padding, right, $name);
+  @include space-class(padding, all, $name);
+
+  @include bleed-class($name, left);
+  @include bleed-class($name, right);
+  @include bleed-class($name, both);
+}
+
+// `map.get($bp, mid)` pulls the media query string named `mid` from the breakpoint map.
+@media #{map.get($bp, mid)} {
+  @each $name, $modifier in $spacing {
+    @include bleed-class($name, left, "mid-");
+    @include bleed-class($name, right, "mid-");
+    @include bleed-class($name, both, "mid-");
+  }
+}
+
+// The same pattern is used here for the larger `max` breakpoint.
+@media #{map.get($bp, max)} {
+  @each $name, $modifier in $spacing {
+    @include bleed-class($name, left, "max-");
+    @include bleed-class($name, right, "max-");
+    @include bleed-class($name, both, "max-");
+  }
+}

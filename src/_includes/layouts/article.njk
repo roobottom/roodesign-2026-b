@@ -1,0 +1,75 @@
+{% extends 'layouts/base.njk' %}
+{% from 'components/meta.njk' import meta as meta %}
+{% from 'components/tags.njk' import tags as displayTags %}
+{% from 'components/title.njk' import title as pagetitle %}
+{% from 'components/breadcrumbs.njk' import breadcrumbs as breadcrumbsList %}
+{% from 'components/articleCard.njk' import articleCard as articleCard %}
+
+{% block main %}
+<main class="container article" id="main">
+  <header class="article-header">
+    {{ breadcrumbsList({
+      classes: 'space--margin-bottom-s',
+      items: breadcrumbs
+    }) if breadcrumbs }}
+    {{ pagetitle({
+      classes: 'space--margin-bottom-l',
+      text: title
+    }) }}
+    {% if summary or introduction %}
+    <div class="prose prose--flow space--margin-bottom-l">
+      <p class="type-scale-1">{{ summary or introduction }}</p>
+    </div>
+    {% endif %}
+  </header>
+
+  <footer class="article-footer">
+    {{ meta({
+      items: [
+        {
+          key: 'Originally published',
+          value: date | date('dddd D MMMM YYYY')
+        } if not created and date,
+        {
+          key: 'Originally published',
+          value: created | date('dddd D MMMM YYYY')
+        } if created,
+        {
+          key: 'Last updated',
+          value: date | date('dddd D MMMM YYYY')
+        } if created,
+        {
+          key: 'Article status',
+          value: statusNames[status].title + '. <a href="/about/#article-status">What\'s this?</a>'
+        } if status,
+        {
+          key: 'Revision',
+          value: revision
+        } if revision,
+        {
+          key: 'Subjects',
+          value: displayTags(tags)
+        } if tags
+      ]
+    }) }}
+  </footer>
+
+  <div class="article-content prose prose--flow">
+    {{ content | safe }}
+  </div>
+
+  {# similar posts #}
+  {% set related = collections.articles | similarPosts(page.fileSlug, tags) %}
+  {% if related and related | length > 0 %}
+  <nav class="article-related" aria-labelledby="similar-posts">
+    <h2 id="similar-posts" class="space--margin-bottom-s">You might also like</h2>
+    <ul class="list list--grid">
+    {% for post in related %}
+      <li>{{ articleCard(post) }}</li>
+    {% endfor %}
+    </ul>
+  </nav>
+  {% endif %}
+
+</main>
+{% endblock %}

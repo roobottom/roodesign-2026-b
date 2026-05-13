@@ -1,0 +1,18 @@
+---
+title: Subjects
+layout: layouts/default.njk
+section_id: subjects
+introduction: Browse articles and stories by subject.
+permalink: /subjects/index.html
+eleventyExcludeFromCollections: true
+---
+
+{% if collections.subjects | length %}
+<ul class="list">
+  {% for tag in collections.subjects %}
+  <li><a href="/subjects/{{ tag | slugify }}/">{{ tag }}</a></li>
+  {% endfor %}
+</ul>
+{% else %}
+<p>No subjects found yet.</p>
+{% endif %}

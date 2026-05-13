@@ -1,0 +1,34 @@
+@use "sass:map";
+//theme styles
+@use 'core/prelude' as *;
+@use 'roobottom-2021/settings';
+@use 'roobottom-2021/fonts';
+
+//global styles
+@use 'imports';
+
+//custom css for this theme
+.section-home {
+  background: linear-gradient(135deg, var(--c-blue-20) 0%, var(--c-pink-20) 50%, var(--c-yellow-20) 100%);
+  .site-header,
+  .site-footer {
+    background: none;
+    border: none;
+  }
+}
+
+.card-cover {
+  background-image: none;
+  background:
+  var(--cover),
+  linear-gradient(135deg, var(--c-blue) 0%, var(--c-pink) 100%);
+  background-blend-mode:overlay;
+  background-size: cover;
+}
+
+// Pull the desktop breakpoint out of the shared Sass map instead of repeating the query.
+@media #{map.get($bp, max)} {
+  #KangaMenu {
+    margin-top: calc(-1 * var(--space-l));
+  }
+}

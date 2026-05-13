@@ -1,0 +1,289 @@
+@use "../core/theme" as *;
+$radio-size: 44px;
+$checkbox-size: 44px;
+
+.error-summary {
+  @include container-prose-flow;
+  border: 3px solid var(--c-error);
+  padding: var(--space-s);
+  margin-bottom: var(--space-m);
+  background-color: var(--c-background);
+  box-shadow: var(--box-shadow);
+
+  &-title {
+    margin-bottom: var(--space-s);
+  }
+
+  &-link {
+    @include type-style-link(var(--c-error), var(--c-error), var(--c-error));
+  }
+
+}
+
+
+.form {
+  &-group {
+    margin-bottom: var(--space-m);
+    &--error {
+      position: relative;
+      &:before {
+        content: "";
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: calc(-1 * var(--space-s));
+        width: 6px;
+        background: var(--c-error);
+      }
+    }
+    &--hp { //honeypot
+      position: absolute;
+      left: -9999px;
+      top: -9999px;
+      width: 1px;
+      height: 1px;
+      overflow: hidden;
+    }
+  }
+  &-label,
+  &-hint,
+  &-input {
+    display: block;
+  }
+  &-hint {
+    font-size: var(--step--1);
+    color: var(--c-text-light);
+  }
+  &-error-message {
+    font-size: var(--step-0);
+    color: var(--c-error);
+  }
+
+  &-legend {
+    font-size: var(--step-2);
+    @include type-family-headline;
+    margin-bottom: var(--space-s);
+    font-weight: bold;
+  }
+
+  //--- textboxes
+  // -----------------
+
+  &-input {
+    @include container-prose-flow;
+    @include type-family-default;
+    font-size: var(--step-0);
+    border: 4px solid var(--c-form-tint);
+    box-sizing: border-box;
+    padding: var(--space-xxs);
+    width: 100%;
+    max-width: var(--line-length);
+    margin-top: var(--space-xs);
+    &--error {
+      border-color: var(--c-error);
+    }
+    &:focus,
+    &:active {
+      box-shadow: 0 0 0 0.5rem var(--c-form-focus);
+    }
+    &--error:focus,
+    &--error:active {
+      box-shadow: 0 0 0 0.5rem var(--c-error-focus);
+    }
+  }
+
+  //--- checkboxes
+  // -----------------
+
+  &-checkbox {
+    @include container-prose-flow;
+    display: block;
+    position: relative;
+    clear: left;
+
+    &-input {
+      position: absolute;
+      z-index: 1;
+      top: -2px;
+      left: -2px;
+      width: $checkbox-size;
+      height: $checkbox-size;
+      margin: 0;
+      opacity: 0;
+      cursor: pointer;
+    }
+
+    &-label {
+      line-height: ($checkbox-size - 4);
+      padding-left: ($checkbox-size + 10);
+      cursor: pointer;
+
+      &:before,
+      &:after {
+        content: "";
+        box-sizing: border-box;
+        position: absolute;
+      }
+      
+      //checkbox outline
+      &:before {
+        background: white;
+        top: 0;
+        left: 0;
+        width: ($checkbox-size - 4);
+        height: ($checkbox-size - 4); //size - (2x border)
+        border: 2px solid var(--c-text);
+      }
+
+      //tick
+      &:after {
+        top: 11px;
+        left: 9px;
+        width: 23px;
+        height: 12px;
+        transform: rotate(-45deg);
+        border: solid;
+        border-width: 0 0 5px 5px;
+        border-top-color: var(--c-text);
+        opacity: 0;
+      }
+
+    }
+
+    //checked state
+    &-input:checked+&-label:after {
+      opacity: 1;
+    }
+
+    //focus state
+    &-input:focus+&-label:before {
+      box-shadow: 0 0 0 2px white, 0 0 0 6px var(--c-link), inset 0 0 0 5px white;
+    }
+
+  }
+
+  //--- form-cards
+  // -----------------
+
+  &-card {
+    border: 1px solid var(--c-border);
+    border-radius: .5rem;
+    position: relative;
+
+    &-header {
+      padding: var(--space-xs);
+    }
+
+    &-content {
+      padding: var(--space-s);
+    }
+
+    &:hover {
+      box-shadow: 0 0 20px fade(black,10%);
+    }
+
+  }
+
+  //--- radios
+  // -----------------
+  &-radio {
+
+    position: relative;
+    @include container-prose-flow;
+    
+    &-input {
+      clip: rect(0 0 0 0);
+      clip-path: inset(50%);
+      position: absolute;
+    }
+
+    &-label {
+      display: grid;
+      grid-template-columns: 3rem 1fr;
+      align-items: center;
+    }
+
+    &-label:before {
+      content: "";
+      display: block;
+      height: 2.5rem;
+      width: 2.5rem;
+      border-radius: 100%;
+
+      justify-self: left;
+      background-color: var(--c-background);
+      box-shadow: inset 0 0 0 0.25rem var(--c-text);
+      transition: box-shadow 0.3s ease-out;
+    }
+
+    &-label:after {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      cursor: pointer;
+    }
+
+    &-input:checked + &-label:before {
+      background-color: var(--c-form-tint);
+      box-shadow: inset 0 0 0 0.25rem var(--c-form-tint),
+                  inset 0 0 0 0.65rem #fff;
+    }
+
+    &-input:focus + &-label:before,
+    &:hover &-input:checked + &-label:before {
+      background-color: var(--c-form-tint);
+      box-shadow: inset 0 0 0 0.25rem var(--c-form-tint),
+                  inset 0 0 0 0.65rem #fff,
+                  0 0 0 0.5rem var(--c-form-focus);
+    }
+
+    &:hover &-input + &-label:before {
+      background-color: var(--c-background);
+      box-shadow: inset 0 0 0 0.25rem var(--c-text),
+                  0 0 0 0.5rem var(--c-form-focus);
+    }
+
+
+    &-hint {
+      margin-left: 3rem;
+    }
+
+  }
+
+  &-card &-radio {
+    position: unset;
+  }
+
+  &-radio + &-radio {
+    margin-top: var(--space-s);
+  }
+
+
+
+  //buttons
+  // -----------------
+
+  &-button {
+    @include type-family-default;
+    line-height: 1;
+    font-size: var(--step-0);
+    background-color: var(--c-form-tint);
+    color: white;
+    padding: var(--space-xs) var(--space-s);
+    border: none;
+    cursor: pointer;
+    border-radius: .25rem;
+
+    &:focus,
+    &:active,
+    &:hover {
+      box-shadow: 0 0 0 0.5rem var(--c-form-focus);
+    }
+
+  }
+
+
+} //end

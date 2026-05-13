@@ -1,0 +1,26 @@
+---
+layout: layouts/default.njk
+section_id: subjects
+eleventyExcludeFromCollections: true
+pagination:
+  data: collections.subjects
+  size: 1
+  alias: tag
+permalink: /subjects/{{ tag | slugify }}/index.html
+eleventyComputed:
+  title: "{{ tag }}"
+  introduction: "Posts tagged {{ tag }}."
+---
+{% from 'components/articleCard.njk' import articleCard as articleCard %}
+
+{% set posts = collections.all | taggedContent(tag) %}
+
+{% if posts | length %}
+<ul class="list list--grid">
+  {% for post in posts %}
+  <li class="list-item">{{ articleCard(post) }}</li>
+  {% endfor %}
+</ul>
+{% else %}
+<p>No posts found for this subject yet.</p>
+{% endif %}
