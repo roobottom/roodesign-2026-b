@@ -20,7 +20,12 @@
         <div class="masonry">
           {% for image in page.gallery %}
             <div class="masonry-item masonry-item--{{ collections.metadata[image.src].orientation }} {{ 'masonry-item--big' if image.featured }}">
-              <img src="{{ image.src }}?resize=600&quality=60" alt="{{ image.alt }}" class="masonry-image" />
+              {{ image.src | responsiveImage({
+                alt: image.alt or '',
+                className: 'masonry-image',
+                preset: 'masonry',
+                sizes: '(max-width: 900px) 50vw, 25vw'
+              }) | safe }}
             </div>
           {% endfor %}
         </div>

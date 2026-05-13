@@ -3,23 +3,34 @@
 img {
   max-width: 100%;
   display: block;
+  height: auto;
 }
 
 figure {
-  >img {
+  >picture {
+    display: block;
+  }
+
+  >img,
+  >picture > img {
     width: calc(100% + 2 * var(--space-m));
     margin-left: calc(-1 * var(--space-m));
     max-width: none; 
+    height: auto;
   }
 
-  &.browser > img {
+  &.browser > img,
+  &.browser > picture > img {
     width: calc(100% + 2 * var(--space-s));
     margin-left: calc(-1 * var(--space-s));
   }
 
   // Read the tablet/desktop breakpoint from the shared Sass map.
   @media #{map.get($bp, mid)} {
-    >img, &.browser > img  {
+    >img,
+    >picture > img,
+    &.browser > img,
+    &.browser > picture > img {
       width: 100%;
       margin-left: 0;
     }
@@ -29,12 +40,14 @@ figure {
     display: block;
   }
 
-  &.shadow>img {
+  &.shadow>img,
+  &.shadow>picture>img {
     // `fade()` is a custom Sass function that outputs an rgba version of the colour.
     box-shadow: 0 0 20px fade(black, 10%);
   }
 
-  &.browser>img {
+  &.browser>img,
+  &.browser>picture>img {
     border: var(--figure-browser-border);
     padding-top: 26px;
     border-radius: var(--figure-browser-radius);

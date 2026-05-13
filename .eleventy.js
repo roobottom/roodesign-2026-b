@@ -18,8 +18,8 @@ const firstSentence = require('./lib/filters/first-sentence.js')
 const markdown = require('./lib/filters/markdown.js')
 const plural = require('./lib/filters/plural.js')
 const numberToWords = require('./lib/filters/number-to-words.js')
-const transform = require('./lib/filters/image-transform.js')
 const leadingZero = require('./lib/filters/leading-zero.js')
+const { buildResponsiveImageManifest, renderResponsiveImage, getResponsiveImageUrl } = require('./lib/images/responsive.js')
 
 // Shortcodes
 const figureShortcode = require('./lib/shortcodes/figure.js')
@@ -30,20 +30,25 @@ module.exports = function (eleventyConfig) {
   // ---------------------------------------------------------------------------
   // SASS pipeline — compile the 2022 theme before each build
   // ---------------------------------------------------------------------------
-  eleventyConfig.on('eleventy.before', () => {
+  eleventyConfig.on('eleventy.before', async () => {
+    console.time('[build] prebuild')
+    console.log('[build] Compiling Sass...')
     const result = sass.compile('src/assets/sass/roobottom-2022.scss', {
       loadPaths: ['src/assets/sass'],
       style: 'expanded'
     })
     fs.mkdirSync('dist/assets/css', { recursive: true })
     fs.writeFileSync('dist/assets/css/roobottom-2022.css', result.css)
+    console.log('[build] Sass complete. Preparing responsive images...')
+
+    await buildResponsiveImageManifest()
+    console.timeEnd('[build] prebuild')
   })
 
   // ---------------------------------------------------------------------------
   // Passthrough copies
   // ---------------------------------------------------------------------------
   eleventyConfig.addPassthroughCopy('src/assets/js')
-  eleventyConfig.addPassthroughCopy('src/assets/images')
   // Copy fonts to /fonts/ to match $path-fonts: '/fonts/' in SCSS settings
   eleventyConfig.addPassthroughCopy({ 'src/assets/static/fonts': 'fonts' })
   eleventyConfig.addPassthroughCopy('src/assets/static/sprites')
@@ -60,8 +65,13 @@ module.exports = function (eleventyConfig) {
   eleventyConfig.addFilter('markdown', markdown)
   eleventyConfig.addFilter('plural', plural)
   eleventyConfig.addFilter('numberToWords', numberToWords)
-  eleventyConfig.addFilter('transform', transform)
   eleventyConfig.addFilter('leadingZero', leadingZero)
+  eleventyConfig.addFilter('responsiveImage', (url, options = {}) =>
+    renderResponsiveImage({ url, ...options })
+  )
+  eleventyConfig.addFilter('responsiveImageUrl', (url, preset = 'card') =>
+    getResponsiveImageUrl({ url, preset })
+  )
   eleventyConfig.addFilter('taggedContent', (collection = [], tag) => {
     if (!tag) {
       return []
@@ -89,6 +99,10 @@ module.exports = function (eleventyConfig) {
   eleventyConfig.addShortcode('figure', (url, alt, caption, classes, link, transformType) => {
     return figureShortcode({ url, alt, caption, classes, link, transform: transformType })
   })
+
+  eleventyConfig.addShortcode('responsiveImage', (url, options = {}) =>
+    renderResponsiveImage({ url, ...options })
+  )
 
   // {% statusNames %} — renders the status legend table
   eleventyConfig.addShortcode('statusNames', () => statusNamesShortcode())

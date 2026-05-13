@@ -2,7 +2,7 @@
 {% if isCollage %}
   {% if url %}style="--cover: url('/collage/{{ url }}');"{% endif %}
 {% else %}
-  {% if url %}style="--cover: url('{{ url | transform('card') }}');"{% endif %}
+  {% if url %}style="--cover: url('{{ url | responsiveImageUrl('card') }}');"{% endif %}
 {% endif %}
 {% endmacro %}
 
