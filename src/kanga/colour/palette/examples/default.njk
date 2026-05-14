@@ -1,0 +1,48 @@
+---
+title: Colour palette
+css: |
+  :root {
+    --colour-xx-dark:  #290010;
+    --colour-x-dark:   #510026;
+    --colour-dark:     #7c003f;
+    --colour-mid:      #bf0064;
+    --colour-light:    #f5388a;
+    --colour-x-light:  #f5a2bb;
+    --colour-xx-light: #ffd9e3;
+  }
+  .swatches {
+    display: flex;
+    height: 100%;
+    min-height: 200px;
+  }
+  .swatch {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 0.5rem;
+    font-family: var(--font-alt);
+    font-size: 11px;
+    line-height: 1.4;
+    overflow: hidden;
+  }
+  .swatch__name { opacity: 0.7; }
+  .swatch__value { font-weight: bold; }
+---
+<div class="swatches">
+  {% set stops = [
+    { name: "xx-dark",  hex: "#290010", text: "white" },
+    { name: "x-dark",   hex: "#510026", text: "white" },
+    { name: "dark",     hex: "#7c003f", text: "white" },
+    { name: "mid",      hex: "#bf0064", text: "white" },
+    { name: "light",    hex: "#f5388a", text: "white" },
+    { name: "x-light",  hex: "#f5a2bb", text: "#290010" },
+    { name: "xx-light", hex: "#ffd9e3", text: "#290010" }
+  ] %}
+  {% for stop in stops %}
+  <div class="swatch" style="background: var(--colour-{{ stop.name }}); color: {{ stop.text }}">
+    <span class="swatch__name">--colour-{{ stop.name }}</span>
+    <span class="swatch__value">{{ stop.hex }}</span>
+  </div>
+  {% endfor %}
+</div>
