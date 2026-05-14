@@ -164,6 +164,11 @@ pre {
     overflow-x: auto;
     border-radius: var(--border-radius);
     outline: var(--c-code-border);
+    font-size: var(--step--1);
+
+    a, span {
+        text-decoration: none !important;
+    }
 }
 
 hr {

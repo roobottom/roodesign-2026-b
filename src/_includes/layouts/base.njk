@@ -110,8 +110,9 @@
 
       {% block scripts %}
       <script src="/assets/js/app.js"></script>
-      <script src="{{ global.cdn }}prismjs@v1.x/components/prism-core.min.js"></script>
-      <script src="{{ global.cdn }}prismjs@v1.x/plugins/autoloader/prism-autoloader.min.js"></script>
+      <script src="{{ global.cdn }}prismjs@1.29.0/components/prism-core.min.js"></script>
+      <script src="{{ global.cdn }}prismjs@1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
+      <script>Prism.plugins.autoloader.languages_path = '{{ global.cdn }}prismjs@1.29.0/components/';</script>
       {% endblock %}
 
       {% endblock %}

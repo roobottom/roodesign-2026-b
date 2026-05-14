@@ -34,11 +34,12 @@
   }
 
   &-summary-link {
-    @include type-style-link($underline: underline);
+    @include type-style-link($underline: none);
     cursor: pointer;
   }
 
   summary:hover &-summary-link {
+    text-decoration: underline;
     text-decoration-thickness: 5px;
   }
 
