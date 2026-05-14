@@ -1,4 +1,4 @@
-@use "../core/theme" as *;
+@use "../core" as *;
 .collage {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));

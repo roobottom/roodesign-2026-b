@@ -1,1 +1,12 @@
-@use 'imports';
+// Main entry point — compiled to roodesign.css by Eleventy's prebuild step.
+//
+// Pulls in the three layers in dependency order. Order affects the CSS
+// cascade, so core (variables, base styles) must come before layout
+// (structural utilities), which must come before components.
+//
+// Each folder's _index.scss lists exactly what it exposes. To understand
+// what's in a layer, start there rather than here.
+
+@use 'core';
+@use 'layout';
+@use 'components';

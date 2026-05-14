@@ -1,4 +1,4 @@
-@use "../core/theme" as *;
+@use "../core" as *;
 .breadcrumbs {
   font-size: var(--step--1);
   @include type-family-alt;

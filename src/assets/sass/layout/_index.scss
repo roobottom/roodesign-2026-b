@@ -1,0 +1,16 @@
+// Layout: structural classes and spacing utilities.
+//
+// Forwarded here so roodesign.scss can pull in the whole layout layer with
+// a single @use 'layout'. Individual layout files @use "../core/settings"
+// directly rather than going through this index — that avoids a circular
+// dependency (core/typography.scss needs layout/containers, so layout files
+// cannot safely @use the core index in return).
+//
+// Files are ordered so utilities (containers, spacing) come before the grid
+// and list patterns that build on top of them.
+
+@forward 'containers';
+@forward 'spacing';
+@forward 'grid';
+@forward 'list';
+@forward 'article';

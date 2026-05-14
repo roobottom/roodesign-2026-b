@@ -1,5 +1,8 @@
 @use "sass:map";
-@use "../core/prelude" as *;
+// Import settings directly — see containers.scss for why not the core index.
+// util is also needed here for the auto-grid-columns mixin used in .list--grid.
+@use "../core/settings" as *;
+@use "../core/util" as *;
 
 .list {
   list-style: none;

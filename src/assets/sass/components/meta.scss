@@ -1,4 +1,4 @@
-@use "../core/theme" as *;
+@use "../core" as *;
 .meta {
   color: var(--c-text-light);
   @include type-family-alt;

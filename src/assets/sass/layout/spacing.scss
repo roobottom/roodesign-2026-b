@@ -1,6 +1,7 @@
 @use "sass:map";
 @use "sass:math";
-@use "../core/prelude" as *;
+// Import settings directly — see containers.scss for why not the core index.
+@use "../core/settings" as *;
 
 // Gives one-off responsive spacing between two named spacing sizes.
 @mixin space-range($attr, $min-name, $max-name) {

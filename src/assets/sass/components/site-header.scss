@@ -1,4 +1,5 @@
-@use "../core/theme" as *;
+@use "../core" as *;
+@use "../layout/spacing" as *;
 .site-header {
 
   background: var(--c-site-header-background);

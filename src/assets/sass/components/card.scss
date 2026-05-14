@@ -1,4 +1,4 @@
-@use "../core/theme" as *;
+@use "../core" as *;
 .card {
   overflow: hidden;
   transition-property: margin, padding;

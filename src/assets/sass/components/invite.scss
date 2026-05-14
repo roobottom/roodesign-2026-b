@@ -1,4 +1,5 @@
-@use "../core/theme" as *;
+@use "../core" as *;
+@use "../layout/containers" as *;
 .invite {
   @include container-prose-flow;
   padding: var(--space-s);

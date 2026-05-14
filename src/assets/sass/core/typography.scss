@@ -1,5 +1,10 @@
 @use "sass:math";
-@use "prelude" as *;
+// settings and util are siblings in core/ — referenced by name, not path.
+// containers lives in layout/ and is needed for the container-prose-flow mixin
+// used in .prose--flow. Layout files avoid importing the core index in return,
+// which would create a circular dependency.
+@use "settings" as *;
+@use "util" as *;
 @use "../layout/containers" as *;
 
 // Sass function: round a number to 2 decimal places before printing it into CSS.

@@ -1,5 +1,6 @@
 @use "sass:map";
-@use "../core/prelude" as *;
+// Import settings directly — see containers.scss for why not the core index.
+@use "../core/settings" as *;
 
 @mixin generate-grid-columns($max-columns) {
   // `@for` lets Sass generate `.grid-column--x1` to `.grid-column--x12` for us.

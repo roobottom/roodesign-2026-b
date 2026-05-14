@@ -1,0 +1,30 @@
+// Components: all UI component styles.
+//
+// Each component file is self-contained and declares its own dependencies
+// via @use "../core" as * — giving it access to settings variables, utility
+// mixins, and typography mixins without importing their CSS output again
+// (Sass only outputs CSS once per module, regardless of how many files use it).
+//
+// Adding a new component: create the .scss file in this folder, then add
+// a @forward line here so it gets picked up by the build.
+
+@forward 'accessibility-menu';
+@forward 'breadcrumbs';
+@forward 'callout';
+@forward 'card';
+@forward 'collage';
+@forward 'example';
+@forward 'form';
+@forward 'gallery';
+@forward 'image';
+@forward 'invite';
+@forward 'masonry';
+@forward 'meta';
+@forward 'navigation';
+@forward 'pallet';
+@forward 'prevNext';
+@forward 'prism';
+@forward 'site-footer';
+@forward 'site-header';
+@forward 'sub-navigation';
+@forward 'tags';

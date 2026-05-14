@@ -1,0 +1,26 @@
+// Core Sass infrastructure: variables, functions, mixins, and base styles.
+//
+// This is an index file. In Sass's module system, referencing a directory
+// (rather than a specific file) automatically loads its _index.scss. So any
+// file that needs core variables or mixins can write:
+//
+//   @use "../core" as *;
+//
+// ...and get everything forwarded below, without specifying a filename.
+//
+// HOW @forward WORKS (vs @use):
+//   @use    — imports a module for use in *this* file only. Its members
+//             (variables, mixins, functions) are not visible to callers.
+//   @forward — re-exports a module's members so that whoever @use's *this*
+//             file can also access them. Like re-exporting in JS/ES modules.
+//             @forward does not output any CSS on its own.
+//
+// Load order matters for the CSS output: reset and settings first (no
+// dependencies), then util (needs settings), fonts (needs settings),
+// typography last (needs settings, util, and layout/containers).
+
+@forward 'reset';
+@forward 'settings';
+@forward 'util';
+@forward 'fonts';
+@forward 'typography';

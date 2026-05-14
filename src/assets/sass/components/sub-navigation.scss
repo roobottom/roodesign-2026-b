@@ -1,4 +1,4 @@
-@use "../core/theme" as *;
+@use "../core" as *;
 @use "sass:map";
 .sub-navigation {
   font-size: var(--step--1);

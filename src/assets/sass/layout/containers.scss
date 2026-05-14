@@ -1,6 +1,8 @@
 @use "sass:map";
 @use "sass:math";
-@use "../core/prelude" as *;
+// Import settings directly (not the core index) to avoid a circular load:
+// core/_index.scss forwards typography, which in turn needs this file.
+@use "../core/settings" as *;
 
 .container {
   // `math.div($width-max, $base)` safely divides numbers in modern Sass.
