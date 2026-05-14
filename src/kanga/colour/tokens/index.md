@@ -17,10 +17,10 @@ Tokens are defined in `src/assets/sass/core/colours.scss` and cascade in three l
 | `--c-text-secondary` | `#666666` | De-emphasised text, captions, metadata |
 | `--c-link` | `#333333` | Link colour |
 | `--c-link-hover` | `#023047` | Link hover state |
-| `--c-link-focus` | `#0573aa` | Link focus state |
+| `--c-focus-ring` | `#0573aa` | Link focus outline colour |
 | `--c-border` | `#cccccc` | Borders, dividers, rules |
 | `--c-background` | `#ffffff` | Page background (used for hole-punch outlines in gallery/masonry) |
-| `--c-focus` | `rgba(0,0,0,0.2)` | Focus ring colour |
+| `--c-focus-bg` | `rgba(0,0,0,0.2)` | Focus background overlay colour |
 | `--c-component-background` | `white` | Card and panel backgrounds |
 | `--c-component-background-tint` | `#f1f1f1` | Tinted panel backgrounds |
 | `--c-site-header-background` | `white` | Site header background |

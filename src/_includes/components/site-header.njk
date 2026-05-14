@@ -1,0 +1,19 @@
+<header class="site-header" aria-label="Site header">
+  <nav class="site-header__nav container" aria-label="Main navigation">
+    <ul class="site-header__items">
+      <li class="site-header__item--home">
+        <a href="/" class="site-header__link" aria-label="Roodesign — homepage"{% if page.url == "/" %} aria-current="page"{% endif %}>
+          <svg class="site-header__logo" width="26" height="32" viewBox="0 0 26 32" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
+            <path fill-rule="evenodd" clip-rule="evenodd" d="M25.6 7.34766L20.007 13.1656L25.5977 18.9023L12.925 32L0 18.9234L5.51484 13.1039L0 7.44609L7.15469 0L12.825 5.65859L18.3391 0L25.6 7.34766ZM3.32734 7.43359L11.4523 15.5437L9.74141 17.2547L7.20547 14.7922L3.32734 18.8875L12.9062 28.5797L22.1883 18.9859L18.2688 14.9234L12.843 20.2672L11.1555 18.6281L16.6086 13.2023L14.0789 10.5805L15.7563 8.87656L18.2906 11.5031L22.2625 7.37109L18.3922 3.45625L10.2484 11.8977L8.57109 10.1938L11.2258 7.44141L7.18906 3.41328L3.32734 7.43359Z" fill="currentColor"/>
+          </svg>
+          <span class="site-header__wordmark">Roodesign</span>
+        </a>
+      </li>
+      {% for item in navigation.main %}
+        <li>
+          <a href="{{ item.url }}" class="site-header__link"{% if item.id == section_id %} aria-current="page"{% endif %}>{{ item.title }}</a>
+        </li>
+      {% endfor %}
+    </ul>
+  </nav>
+</header>

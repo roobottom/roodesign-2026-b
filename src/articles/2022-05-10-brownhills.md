@@ -9,6 +9,8 @@ cover: /images/articles/brownhills/cover.jpeg
 coverAlt: The old council house at Brownhills circa 1900
 featured: true
 status: 2
+colour: "#11d6d6"
+illumination: dark
 ---
 Brownhills is where I grew up. It's part of the Black Country, the heartland of England's industrial revolution in the 18th and 19th centuries. Someone told me that Brownhills got its name from the brown earth spoil from digging the pits - known colloquially as "slag".
 

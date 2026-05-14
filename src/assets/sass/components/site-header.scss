@@ -1,12 +1,137 @@
 @use "../core" as *;
 @use "../layout/spacing" as *;
-.site-header {
+@use "sass:map";
 
+// ---------------------------------------------------------------------------
+// Base (mobile-first)
+// ---------------------------------------------------------------------------
+
+.site-header {
   background: var(--c-site-header-background);
   border-bottom: var(--c-site-header-border-bottom);
-
-  padding-bottom: var(--space-m);
-  padding-top: var(--space-m);
+  backdrop-filter: blur(8px);
   @include space-range(margin-bottom, xs, m);
-  
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  padding-top: var(--space-xs);
+  padding-bottom: var(--space-xs);
+
+  &__items {
+    display: flex;
+    align-items: center;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    gap: var(--space-s);
+  }
+
+  &__item--home {
+    margin-right: auto;
+  }
+
+  &__logo {
+    height: var(--step-4);
+    width: auto;
+    flex-shrink: 0;
+  }
+
+  &__wordmark {
+    @include type-family-headline;
+    font-size: var(--step-2);
+    letter-spacing: -0.02em;
+    font-weight: bold;
+    display: none;
+  }
+
+  &__link {
+    color: var(--c-link);
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: var(--space-xs);
+    @include type-family-alt;
+    font-size: var(--step--1);
+
+    &:focus-visible {
+      @include focus-ring;
+    }
+
+    &[aria-current="page"] {
+      font-weight: bold;
+    }
+  }
+
+  body[style*="--colour-mid"] &__link[aria-current="page"] {
+    color: var(--colour-dark);
+    position: relative;
+
+    &::after {
+      content: '';
+      display: block;
+      height: 3px;
+      background: var(--colour-mid);
+      margin-top: var(--space-xxs);
+    }
+  }
+
+  body[data-illumination="dark"][style*="--colour-mid"] &__link[aria-current="page"] {
+    color: var(--colour-xs-light);
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Max breakpoint (980px+)
+// ---------------------------------------------------------------------------
+
+@media #{map.get($bp, max)} {
+  .site-header {
+    padding: 0;
+
+    &__wordmark {
+      display: block;
+    }
+
+    // Stretch chain: items → li → link
+    // so each link's bottom edge aligns with the header's bottom border.
+    &__items {
+      align-items: stretch;
+      gap: 0;
+    }
+
+    &__items li {
+      display: flex;
+    }
+
+    &__item--home {
+      margin-right: auto;
+
+      // The wordmark bold state is enough — no underline on the logo
+      .site-header__link[aria-current="page"] {
+        border-bottom-color: transparent;
+        margin-bottom: 0;
+      }
+    }
+
+    &__link {
+      padding-top: var(--space-s);
+      padding-bottom: var(--space-xs);
+      padding-left: var(--space-xs);
+      padding-right: var(--space-xs);
+      border-bottom: var(--space-xxs) solid transparent;
+    }
+
+    &__link[aria-current="page"] {
+      border-bottom-color: var(--c-link);
+      margin-bottom: -1px;
+    }
+
+    body[style*="--colour-mid"] &__link[aria-current="page"] {
+      border-bottom-color: var(--colour-mid);
+
+      &::after {
+        display: none;
+      }
+    }
+  }
 }

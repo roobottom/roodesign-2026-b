@@ -21,8 +21,17 @@
   font-family: var(--font-alt);
 }
 
-@mixin type-style-link($color: var(--c-link), $focus: var(--c-link-focus), $hover: var(--c-link-hover), $underline: underline) {
-  // Central link style mixin used by many components.
+// Double-ring focus indicator using --c-text / --c-background.
+// These tokens always contrast with each other across every palette and
+// illumination context, so this ring is visible on any page without overrides.
+@mixin focus-ring {
+  outline: 3px solid var(--c-text);
+  outline-offset: 3px;
+  box-shadow: 0 0 0 6px var(--c-background);
+  border-radius: 2px;
+}
+
+@mixin type-style-link($color: var(--c-link), $hover: var(--c-link-hover), $underline: underline) {
   color: $color;
   text-decoration: $underline;
   padding: var(--space-xxs);
@@ -36,10 +45,9 @@
     -webkit-text-decoration: underline $hover;
   }
 
-  &:focus {
-    outline: 2px solid $focus;
+  &:focus-visible {
+    @include focus-ring;
     text-decoration: none;
-    color: $focus;
   }
 }
 
@@ -131,6 +139,9 @@ a {
     text-decoration-thickness: 1px;
     &:hover {
         text-decoration-thickness: 2px;
+    }
+    &:focus-visible {
+        @include focus-ring;
     }
 }
 

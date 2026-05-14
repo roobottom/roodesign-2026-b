@@ -5,6 +5,8 @@ created: 2022-04-22
 layout: layouts/article.njk
 permalink: /about/index.html
 introduction: Everything you never wanted to know about me.
+colour: "#dcff17"
+illumination: dark
 ---
 Hello, I'm Jon Roo, a human man with a penchant for building websites. Born and bred in [Brownhills](/articles/walking-around-brownhills/), in the industrial midlands, I now live on the south coast with my wife and two children.
 

@@ -3,7 +3,7 @@
   font-size: var(--step--1);
   @include type-family-alt;
   a {
-    @include type-style-link($color: var(--c-text-secondary), $hover: var(--c-link-hover), $focus: var(--c-link-focus), $underline: var(--c-text-secondary));
+    @include type-style-link($color: var(--c-text-secondary), $hover: var(--c-link-hover), $underline: var(--c-text-secondary));
   }
   ol {
     list-style: none;

@@ -18,7 +18,7 @@
       <meta charset="utf-8">
       <meta http-equiv="X-UA-Compatible" content="IE=edge">
       <meta name="viewport" content="width=device-width, initial-scale=1">
-      <title>{% block pageTitle %}{{ title }} - Jon's website{% endblock %}</title>
+      <title>{% block pageTitle %}{{ title }} — Roodesign{% endblock %}</title>
 
       <link rel="token_endpoint" href="https://indiekit.roobottom.com/auth/token">
       <link rel="me" href="https://github.com/roobottom">
@@ -29,7 +29,7 @@
       <link rel="stylesheet" href="/assets/css/roodesign.css">
       {% endblock %}
 
-      <link rel="alternate" type="application/atom+xml" title="RSS feed for Jon's website" href="/feed.xml" />
+      <link rel="alternate" type="application/atom+xml" title="RSS feed for Roodesign" href="/feed.xml" />
     </head>
     <body class="no-js section-{{ section_id }} {% block bodyClasses %}{% endblock %}"
       data-illumination="{{ illumination or 'light' }}"
@@ -43,18 +43,7 @@
       {% endblock %}
 
       {% block siteHeader %}
-      <header class="site-header">
-          <nav class="container navigation" aria-label="Main">
-          <a href="/" class="navigation__sitename" aria-labelledby="sitename">
-              <span id="sitename">Jon's website</span> <span class="visually-hidden">homepage</span>
-          </a>
-          <ul class="navigation__items">
-              {% for item in navigation.main %}
-                  <li><a href="{{ item.url }}"{% if item.id == section_id %} class="active" aria-current="page"{% endif %}>{{ item.title }}</a></li>
-              {% endfor %}
-          </ul>
-          </nav>
-      </header>
+      {% include "components/site-header.njk" %}
       {% endblock %}
 
       {% block main %}
@@ -87,7 +76,7 @@
       <footer class="site-footer">
         <div class="container">
           <div class="site-footer-content">
-              <p>&copy; Jon Roo</p>
+              <p>&copy; Roodesign</p>
           </div>
           <ul class="site-footer-items">
             <li>{{

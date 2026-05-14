@@ -20,18 +20,18 @@ $illumination-dark-text: #f5f5f5;
 // Default (light) tokens
 // ---------------------------------------------------------------------------
 :root {
-  --c-site-header-background:    white;
-  --c-site-header-border-bottom: none;
+  --c-site-header-background:    rgba(255,255,255,0.85);
+  --c-site-header-border-bottom: 1px solid var(--c-border);
 
   --c-site-footer-background:    none;
   --c-site-footer-border-top:    1px solid var(--c-border);
 
   --c-border:                    #ccc;
   --c-background:                #FFF;
-  --c-focus:                     rgba(0, 0, 0, 0.2);
+  --c-focus-bg:                     rgba(0, 0, 0, 0.2);
 
   --c-text:                      #333333;
-  --c-text-secondary:                #666666;
+  --c-text-secondary:            #666666;
 
   --c-component-background:      white;
   --c-component-background-tint: #F1F1F1;
@@ -45,7 +45,7 @@ $illumination-dark-text: #f5f5f5;
 
   --c-link:                      #333333;
   --c-link-hover:                #023047;
-  --c-link-focus:                #0573aa;
+  --c-focus-ring:                #0573aa;
 
   --c-hr:                        var(--c-border);
 
@@ -81,9 +81,9 @@ body[data-illumination="light"][style*="--colour-xx-light"] {
   --c-text-secondary:                var(--colour-x-dark);
   --c-link:                      var(--colour-x-dark);
   --c-link-hover:                var(--colour-xx-dark);
-  --c-link-focus:                var(--colour-dark);
+  --c-focus-ring:                var(--colour-dark);
   --c-border:                    var(--colour-x-light);
-  --c-focus:                     var(--colour-light);
+  --c-focus-bg:                     var(--colour-light);
   --c-site-header-background:    transparent;
   --c-site-header-border-bottom: 1px solid var(--colour-x-light);
   --c-site-footer-background:    transparent;
@@ -105,13 +105,13 @@ body[data-illumination="dark"] {
 
   --c-background:                var(--colour-xx-dark,  #{$illumination-dark-bg});
   --c-text:                      var(--colour-xx-light, #{$illumination-dark-text});
-  --c-text-secondary:                var(--colour-x-light,  #aaaaaa);
+  --c-text-secondary:            var(--colour-x-light,  #aaaaaa);
   --c-link:                      var(--colour-xx-light,  #{$illumination-dark-text});
   --c-link-hover:                var(--colour-xx-light,  #{$illumination-dark-text});
-  --c-link-focus:                var(--colour-xx-light,  #{$illumination-dark-text});
+  --c-focus-ring:                var(--colour-xx-light,  #{$illumination-dark-text});
   --c-border:                    var(--colour-dark,     #444444);
-  --c-focus:                     var(--colour-mid,      #888888);
-  --c-site-header-background:    var(--colour-xx-dark,  #{$illumination-dark-bg});
+  --c-focus-bg:                     var(--colour-x-dark,      #888888);
+  --c-site-header-background:    color-mix(in srgb, var(--colour-xx-dark, #{$illumination-dark-bg}) 85%, transparent);
   --c-site-header-border-bottom: 1px solid var(--colour-dark, #444444);
   --c-site-footer-background:    var(--colour-xx-dark,  #{$illumination-dark-bg});
   --c-site-footer-border-top:    1px solid var(--colour-dark, #444444);
