@@ -37,6 +37,12 @@
     padding: var(--step-0);
   }
 
+  @media (hover: hover) {
+    body[style*="--colour-mid"] &:hover {
+      box-shadow: 0 0 0 3px var(--colour-mid), var(--box-shadow);
+    }
+  }
+
   &-link {
     text-decoration: none;
     color: var(--c-link);

@@ -1,0 +1,54 @@
+// Illumination — body background and text driven by data-illumination attribute.
+//
+// Pages set data-illumination="light" (default) or "dark" via frontmatter.
+// When a `colour` is also set, the 7-step palette vars (--colour-xx-dark …
+// --colour-xx-light) are injected inline on <body> and the palette extremes
+// are used for background/text. Without a colour, dark pages fall back to a
+// neutral dark; light pages are left untouched (normal body styles apply).
+//
+// The [style*="--colour-xx-light"] guard prevents palette-background rules
+// firing on light pages that have no colour set.
+//
+// Tier 1 token remapping: override --c-* semantic tokens here so every
+// component adapts automatically without touching individual component files.
+
+$illumination-dark-bg:   #1a1a1a;
+$illumination-dark-text: #f5f5f5;
+
+body[data-illumination="light"][style*="--colour-xx-light"] {
+  background-color: var(--colour-xx-light);
+  color: var(--colour-xx-dark);
+
+  --c-text:                      var(--colour-xx-dark);
+  --c-text-light:                var(--colour-x-dark);
+  --c-link:                      var(--colour-dark);
+  --c-link-hover:                var(--colour-xx-dark);
+  --c-link-focus:                var(--colour-dark);
+  --c-border:                    var(--colour-x-light);
+  --c-focus:                     var(--colour-light);
+  --c-site-header-background:    transparent;
+  --c-site-header-border-bottom: 1px solid var(--colour-x-light);
+  --c-component-background:      white;
+  --c-component-background-tint: var(--colour-xx-light);
+  --c-code-background:           var(--colour-x-light);
+  --c-code-border:               1px solid var(--colour-light);
+}
+
+body[data-illumination="dark"] {
+  background-color: var(--colour-xx-dark, #{$illumination-dark-bg});
+  color: var(--colour-xx-light, #{$illumination-dark-text});
+
+  --c-text:                      var(--colour-xx-light, #{$illumination-dark-text});
+  --c-text-light:                var(--colour-x-light, #aaaaaa);
+  --c-link:                      var(--colour-light,   #aaaaaa);
+  --c-link-hover:                var(--colour-x-light, #cccccc);
+  --c-link-focus:                var(--colour-light,   #aaaaaa);
+  --c-border:                    var(--colour-dark,    #444444);
+  --c-focus:                     var(--colour-mid,     #888888);
+  --c-site-header-background:    var(--colour-xx-dark, #{$illumination-dark-bg});
+  --c-site-header-border-bottom: 1px solid var(--colour-dark, #444444);
+  --c-component-background:      var(--colour-x-dark,  #2a2a2a);
+  --c-component-background-tint: var(--colour-dark,    #333333);
+  --c-code-background:           var(--colour-x-dark,  #2a2a2a);
+  --c-code-border:               1px solid var(--colour-dark, #444444);
+}

@@ -31,7 +31,9 @@
 
       <link rel="alternate" type="application/atom+xml" title="RSS feed for Jon's website" href="/feed.xml" />
     </head>
-    <body class="no-js section-{{ section_id }} {% block bodyClasses %}{% endblock %}">
+    <body class="no-js section-{{ section_id }} {% block bodyClasses %}{% endblock %}"
+      data-illumination="{{ illumination or 'light' }}"
+      {% if colour %}style="{{ colour | palette | paletteVars }}"{% endif %}>
       {% block body %}
 
       {% block accessibilityMenu %}

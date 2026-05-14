@@ -9,6 +9,22 @@ const markdownItAbbr = require('markdown-it-abbr')
 const markdownItFootnote = require('markdown-it-footnote')
 const markdownItShortcode = require('markdown-it-shortcode-tag')
 
+// Colour palette
+const { generatePalette } = require('./lib/colour-palette.js')
+
+const COLOUR_ALIASES = {
+  // extend here to support named colours in frontmatter
+}
+
+function resolveSeed(value) {
+  if (!value) return null
+  const str = String(value).trim()
+  if (COLOUR_ALIASES[str]) return COLOUR_ALIASES[str]
+  // Accept bare 6-char hex without # (avoids YAML comment-stripping for `colour: ff6b6b`)
+  if (/^[0-9a-fA-F]{6}$/.test(str)) return `#${str}`
+  return str
+}
+
 // Filters
 const date = require('./lib/filters/date.js')
 const dateDiff = require('./lib/filters/date-diff.js')
@@ -97,6 +113,38 @@ module.exports = function (eleventyConfig) {
   eleventyConfig.addFilter('title', (str) =>
     str ? str.charAt(0).toUpperCase() + str.slice(1) : ''
   )
+
+  // ---------------------------------------------------------------------------
+  // Colour palette filters
+  // ---------------------------------------------------------------------------
+
+  // Generate all 7 palette stops from a seed hex (or named alias).
+  // Returns null if the value is falsy.
+  eleventyConfig.addFilter('palette', (value) => {
+    const seed = resolveSeed(value)
+    if (!seed) return null
+    try { return generatePalette(seed) } catch { return null }
+  })
+
+  // Normalise a seed to its resolved hex string (for use in style attrs etc.).
+  eleventyConfig.addFilter('seedHex', (value) => resolveSeed(value))
+
+  // Convert a palette object to a semicolon-separated CSS custom-property string
+  // suitable for injecting into a style="" attribute.
+  eleventyConfig.addFilter('paletteVars', (palette) => {
+    if (!palette) return ''
+    return [
+      `--colour-xx-dark: ${palette.xxDark}`,
+      `--colour-x-dark: ${palette.xDark}`,
+      `--colour-dark: ${palette.dark}`,
+      `--colour-mid: ${palette.mid}`,
+      `--colour-light: ${palette.light}`,
+      `--colour-x-light: ${palette.xLight}`,
+      `--colour-xx-light: ${palette.xxLight}`,
+      `--colour-on-mid: ${palette.onSeed}`,
+      `--colour-on-mid-secondary: ${palette.onSeedSecondary}`,
+    ].join('; ')
+  })
 
   // ---------------------------------------------------------------------------
   // Shortcodes

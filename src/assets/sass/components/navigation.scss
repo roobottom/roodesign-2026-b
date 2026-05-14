@@ -30,7 +30,19 @@
     .active {
         font-weight: bold;
         text-decoration: none;
-        
+    }
+
+    body[style*="--colour-mid"] &__items .active {
+        color: var(--colour-dark);
+        position: relative;
+
+        &::after {
+            content: '';
+            display: block;
+            height: 3px;
+            background: var(--colour-mid);
+            margin-top: var(--space-xxs);
+        }
     }
 
     &__items {
