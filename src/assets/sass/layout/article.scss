@@ -1,3 +1,9 @@
+@use "../core/settings" as *;
+
+.article-header h1 {
+  font-size: #{type-range(5, 8)};
+}
+
 .article {
   display: flex;
   flex-direction: column;

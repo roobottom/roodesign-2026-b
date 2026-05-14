@@ -25,7 +25,7 @@ There are type scale classes that can be used to override text elements.
 <example height='400'>
 
 ## Type scale CSS variables
-Each step in the scale also had a CSS variable.
+Each step in the scale also has a CSS variable.
 
 | Step | CSS variable |
 |:--|--:|
@@ -43,15 +43,32 @@ Each step in the scale also had a CSS variable.
 | 9 | `var(--step-9)` |
 | 10 | `var(--step-10)` |
 
-## Type ranges Less mixin
+## Advanced use
 
-If there isn't a size in the scale that suits, there's also a type range mixin that allows mixing of steps:
+The type and spacing systems are built on three Sass functions defined in `core/settings.scss`. Components and pages should use `var(--step-N)` — these functions are for system-level work only.
 
-``` {.language-less}
-#type.steps(@minstep, @maxstep);
+### `fluid($min, $max)`
+
+Generates a `clamp()` that scales linearly between two px values across the site's viewport range (320–1100px). All values are unitless px numbers.
+
+``` {.language-scss}
+font-size: #{fluid(34, 52)}; // clamp(34px, …, 52px)
 ```
 
-| Variable | Description |
-|:- | :- |
-| `@minstep` | A step on the scale -2 to 10. The text will be rendered at this size at the minimum viewport width of 320. |
-| `@maxstep` | A step on the scale -2 to 10. The text will be rendered at this size at the maximum viewport width of 1100. |
+### `rhythm($units)`
+
+Returns a fluid value expressed as a multiple of the body line-height (26px min, 28px max). Ties spacing and sizing to the same baseline as the text, so layout breathes in step with the type.
+
+``` {.language-scss}
+margin-bottom: #{rhythm(1)};   // one leading unit  ≈ 26–28px
+margin-bottom: #{rhythm(2)};   // two leading units ≈ 52–56px
+margin-bottom: #{rhythm(0.5)}; // half a unit       ≈ 13–14px
+```
+
+### `rhythm-px($min, $max)`
+
+Like `rhythm()` but accepts raw px values and converts them to leading units internally. Useful when you know the target size in pixels but want it locked to the rhythm system.
+
+``` {.language-scss}
+line-height: #{rhythm-px(38, 55)}; // scales from 38px to 55px, in rhythm units
+```

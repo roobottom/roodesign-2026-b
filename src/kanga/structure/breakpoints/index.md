@@ -11,7 +11,7 @@ For the most part, this site uses standard breakpoints that respond to the viewp
 | max | >980 |
 | beyond-max | >1100 |
 
-There are also special breakpoints if I need to restrict CSS to a certain viewport width: 
+There are also special breakpoints if I need to restrict CSS to a certain viewport width:
 
 | Breakpoint name | Sizes |
 | :- | -: |
@@ -19,22 +19,26 @@ There are also special breakpoints if I need to restrict CSS to a certain viewpo
 | mid-only | >520 <980 |
 | max-only | >980 <1100 |
 
-### Using the breakpoints in Less
-Calling the breakpoints in Less can be done either nested, or wrapped, for example:
+## Using the breakpoints in Sass
 
-``` {.language-less}
-//nested
-.elemnet {
-  text-size: var(--step-0);
-  @media @bp[mid] {
-    text-size: var(--step-1);
+Breakpoints live in the `$bp` map in `core/settings.scss`. Use `map.get()` to interpolate them into a media query, either nested inside a rule or as a wrapper:
+
+``` {.language-scss}
+@use "sass:map";
+@use "../core/settings" as *;
+
+// nested
+.element {
+  font-size: var(--step-0);
+  @media #{map.get($bp, mid)} {
+    font-size: var(--step-1);
   }
 }
 
-//wrapped
-@media @bp[mid] {
+// wrapped
+@media #{map.get($bp, mid)} {
   .element {
-    text-size: var(--step-1);
+    font-size: var(--step-1);
   }
 }
 ```

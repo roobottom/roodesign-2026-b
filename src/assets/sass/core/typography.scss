@@ -7,19 +7,7 @@
 @use "util" as *;
 @use "../layout/containers" as *;
 
-// Sass function: round a number to 2 decimal places before printing it into CSS.
-// Without this, fluid type calculations can compile to very long decimal values.
-@function round2($value) {
-  @return math.div(math.round($value * 100), 100);
-}
 
-@mixin type-steps($minstep, $maxstep) {
-  // `math.pow()` raises the type scale to a step like 1.2^4.
-  // We use it to derive the min and max font sizes for a given heading level.
-  $min: round2(math.pow($type-min-scale, $minstep) * $type-min-size);
-  $max: round2(math.pow($type-max-scale, $maxstep) * $type-max-size);
-  font-size: calc(#{to-unit(math.div($min, $base), rem)} + (#{$max} - #{$min}) * var(--fluid-bp));
-}
 
 @mixin type-family-default() {
   font-family: var(--font-default);
@@ -57,18 +45,17 @@
 
 :root {
   // Generate CSS custom properties for step-up and step-down type scales.
+  // fluid() outputs a clamp() resolved entirely at build time — no --fluid-bp needed.
   @for $counter from 0 through $typescale-up-steps {
-    // `@for` is a Sass loop, so these values are generated once at compile time.
     $min: round2(math.pow($type-min-scale, $counter) * $type-min-size);
     $max: round2(math.pow($type-max-scale, $counter) * $type-max-size);
-    --step-#{$counter}: calc(#{to-unit(math.div($min, $base), rem)} + (#{$max} - #{$min}) * var(--fluid-bp));
+    --step-#{$counter}: #{fluid($min, $max)};
   }
 
   @for $counter from 1 through $typescale-down-steps {
-    // Dividing by the scale moves us down the type scale for smaller text styles.
     $min: round2(math.div($type-min-size, math.pow($type-min-scale, $counter)));
     $max: round2(math.div($type-max-size, math.pow($type-max-scale, $counter)));
-    --step--#{$counter}: calc(#{to-unit(math.div($min, $base), rem)} + (#{$max} - #{$min}) * var(--fluid-bp));
+    --step--#{$counter}: #{fluid($min, $max)};
   }
 }
 
@@ -94,27 +81,28 @@ body{
 }
 
 h1, h2, h3, h4 {
-    line-height: var(--line-height--tight);
     font-feature-settings: 'kern' 1;
     @include type-family-headline;
+    font-weight: bold;
+    line-height: var(--line-height--tight);
 }
 
 h1, .h1 {
-    @include type-steps(4, 8);
+    font-size: var(--step-6);
+    letter-spacing: -0.023em;
     overflow-wrap: break-word;
 }
 
-.homepage-title {
-    @include type-steps(4, 11);
-}
 
 h2, .h2 {
     font-size: var(--step-3);
+    letter-spacing: -0.012em;
     font-variant: normal;
 }
 
 h3, .h3 {
     font-size: var(--step-2);
+    letter-spacing: -0.011em;
     font-variant: normal;
 }
 
@@ -136,6 +124,14 @@ h6, .h6 {
 
 .link {
   @include type-style-link;
+}
+
+a {
+    text-underline-offset: 0.2em;
+    text-decoration-thickness: 1px;
+    &:hover {
+        text-decoration-thickness: 2px;
+    }
 }
 
 code {
@@ -172,15 +168,9 @@ pre {
 
 hr {
     border: none;
-    margin-left: 0;
-    margin-right: 0;
-    &:before {
-      content: "";
-      display: block;
-      width: 100%;
-      height: 2px;
-      background: var(--c-hr);
-    }
+    border-block-start: 0.5px solid currentcolor;
+    opacity: 0.3;
+    margin-inline: 0;
 }
 
 //data tables
@@ -287,15 +277,17 @@ table {
         @include type-family-headline;
         font-style: italic;
         font-weight: bold;
-        font-size: var(--step-1);
+        font-size: var(--step-2);
+        line-height: var(--line-height--tight);
+        letter-spacing: -0.011em;
         >p {
             @supports (hanging-punctuation: first) {
                 hanging-punctuation: first;
                 text-indent: 0;
-            } 
+            }
         }
-        >p:first-child:before { content: "“";}
-        >p:last-child:after { content: "”";}
+        >p:first-child:before { content: “””;}
+        >p:last-child:after { content: “””;}
     }
 
     .footnotes {

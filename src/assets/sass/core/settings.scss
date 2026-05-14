@@ -74,16 +74,57 @@ $spacing: (
   @return rgba($color, math.div($alpha, 100));
 }
 
+// Rounds to 2 decimal places — prevents long decimals in compiled CSS output.
+@function round2($value) {
+  @return math.div(math.round($value * 100), 100);
+}
+
+// Returns a fluid value spanning two steps on the type scale.
+// Both arguments must be valid step numbers (-2 to 10).
+// Compiles to a single clamp() — no nesting required.
+@function type-range($min-step, $max-step) {
+  @if $min-step < -2 or $min-step > 10 {
+    @error "type-range: $min-step must be between -2 and 10, got #{$min-step}.";
+  }
+  @if $max-step < -2 or $max-step > 10 {
+    @error "type-range: $max-step must be between -2 and 10, got #{$max-step}.";
+  }
+  $min: round2(math.pow($type-min-scale, $min-step) * $type-min-size);
+  $max: round2(math.pow($type-max-scale, $max-step) * $type-max-size);
+  @return fluid($min, $max);
+}
+
+// Body line-height in px at min/max viewport — the base unit for typographic rhythm.
+// All spacing and heading line-heights are expressed as multiples of these values.
+$type-body-lh-min: 26;
+$type-body-lh-max: 28;
+
+// Generates a self-contained clamp() value that scales linearly between two viewport widths.
+// All arguments are unitless px numbers. Default viewport range matches $width-min/$width-max.
+// Unlike --fluid-bp (a CSS runtime approach), this runs entirely at Sass compile time.
+@function fluid($min, $max, $min-vp: $width-min, $max-vp: $width-max) {
+  $slope: math.div($max - $min, $max-vp - $min-vp);
+  $intercept: $min - $slope * $min-vp;
+  @return clamp(#{$min}px, #{$intercept}px + #{$slope * 100}vw, #{$max}px);
+}
+
+// Returns a fluid value expressed in body line-height units.
+// rhythm(1) = one leading step; rhythm(2) = two; rhythm(0.5) = half.
+// Ties spacing to the same baseline as text so layout breathes in columns.
+@function rhythm($min-units, $max-units: $min-units) {
+  @return fluid($type-body-lh-min * $min-units, $type-body-lh-max * $max-units);
+}
+
+// Like rhythm() but accepts raw pixel values and converts them to leading units.
+// rhythm-px(30, 35) = "space this like 30px at min and 35px at max".
+@function rhythm-px($min, $max: $min) {
+  @return rhythm(
+    math.div($min, $type-body-lh-min),
+    math.div($max, $type-body-lh-max)
+  );
+}
+
 :root {
-  // These custom properties power fluid type/spacing calculations in other files.
-  --fluid-min-width: #{$width-min};
-  --fluid-max-width: #{$width-max};
-
-  --fluid-screen: 100vw;
-  // `to-unit()` and `math.div()` run at build time, while `calc()` runs in the browser.
-  // That combination lets Sass prepare the numbers and CSS keep them fluid at runtime.
-  --fluid-bp: calc((var(--fluid-screen) - var(--fluid-min-width) / #{$base} * 1rem) / (var(--fluid-max-width) - var(--fluid-min-width)));
-
   --line-length: #{to-unit(math.div($line-length, $base), rem)};
   --line-height: 1.67;
   --line-height--loose: 1.75;
@@ -98,22 +139,16 @@ $spacing: (
     var(--box-shadow);
 }
 
-@media screen and (min-width: #{to-unit($width-max, px)}) {
-  :root {
-    --fluid-screen: calc(var(--fluid-max-width) * 1px);
-  }
-}
-
 $centered: false;
 
 $font-default: 'Tiempos', sans-serif;
 $font-heading: 'Tiempos Fine', serif;
-$font-alt: 'Space Grotesk', sans-serif;
+$font-alt: 'CommitMono', monospace;
 
 :root {
   --font-default: 'Tiempos', sans-serif;
   --font-heading: 'Tiempos Fine', serif;
-  --font-alt: 'Space Grotesk', sans-serif;
+  --font-alt: 'CommitMono', monospace;
 
   --c-site-header-background: white;
   --c-site-header-border-bottom: none;

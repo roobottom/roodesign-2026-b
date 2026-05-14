@@ -5,11 +5,13 @@
 
 // Gives one-off responsive spacing between two named spacing sizes.
 @mixin space-range($attr, $min-name, $max-name) {
-  // `map.get($spacing, $min-name)` reads a value from the Sass map declared in settings.
-  // That means `s`, `m`, `l`, etc. can be looked up by name instead of hard-coded.
-  $min: $type-min-size * map.get($spacing, $min-name);
-  $max: $type-max-size * map.get($spacing, $max-name);
-  #{$attr}: calc(#{to-unit(math.div($min, $base), rem)} + (#{$max} - #{$min}) * var(--fluid-bp));
+  // Reads spacing multipliers from the $spacing map and converts to rhythm-based clamp().
+  // rhythm() ties the values to body line-height so spacing and text stay in step.
+  $min-mult: map.get($spacing, $min-name);
+  $max-mult: map.get($spacing, $max-name);
+  $min: $type-body-lh-min * $min-mult;
+  $max: $type-body-lh-max * $max-mult;
+  #{$attr}: #{fluid($min, $max)};
 }
 
 @mixin space-class($type, $direction, $size) {
@@ -40,12 +42,14 @@
 }
 
 @each $name, $modifier in $spacing {
-  // For each spacing token, emit CSS vars + spacing helpers.
-  $min: $type-min-size * $modifier;
-  $max: $type-max-size * $modifier;
-
+  // For each spacing token, emit a rhythm-based clamp() CSS var + utility helpers.
+  // rhythm() scales to body line-height, keeping layout in step with the text baseline.
   :root {
-    --space-#{$name}: calc(#{to-unit(math.div($min, $base), rem)} + (#{$max} - #{$min}) * var(--fluid-bp));
+    @if $modifier == 0 {
+      --space-#{$name}: 0;
+    } @else {
+      --space-#{$name}: #{rhythm($modifier)};
+    }
   }
 
   @include space-class(margin, top, $name);

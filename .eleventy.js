@@ -33,6 +33,8 @@ module.exports = function (eleventyConfig) {
   // ---------------------------------------------------------------------------
   // SASS pipeline — compile the 2022 theme before each build
   // ---------------------------------------------------------------------------
+  eleventyConfig.addWatchTarget('src/assets/sass/')
+
   eleventyConfig.on('eleventy.before', async () => {
     console.time('[build] prebuild')
     console.log('[build] Compiling Sass...')

@@ -39,16 +39,18 @@
     font-style: normal;
 }
 
-@font-face{
-    font-family: 'Space Grotesk'; 
-    src: url('#{$path-fonts}SpaceGrotesk-Regular.woff') format('woff');
-    font-weight: normal;
-    font-style: normal;
+@font-face {
+  font-family: 'CommitMono';
+  src: url('#{$path-fonts}CommitMono-400.woff2') format('woff2');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
 }
 
-@font-face{
-    font-family: 'Space Grotesk'; 
-    src: url('#{$path-fonts}SpaceGrotesk-Bold.woff') format('woff');
-    font-weight: bold;
-    font-style: normal;
+@font-face {
+  font-family: 'CommitMono';
+  src: url('#{$path-fonts}CommitMono-700.woff2') format('woff2');
+  font-weight: bold;
+  font-style: normal;
+  font-display: swap;
 }
