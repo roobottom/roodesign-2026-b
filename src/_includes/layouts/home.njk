@@ -1,25 +1,45 @@
 {% extends 'layouts/base.njk' %}
-{% from 'components/articleCard.njk' import articleCard as articleCard %}
-{% from 'components/title.njk' import title as pagetitle %}
+{% from "components/post-card.njk" import postCard %}
 
-{% block beforeContent %}
-{{ pagetitle({
-  classes: 'homepage-title',
-  text: title
-}) }}
-{% endblock %}
+{%- set cardColours = ["e63946", "2a9d8f", "f4a261", "7b2d8b", "0096c7", "e9c46a", "06d6a0"] -%}
 
-{% block content %}
-<div class="prose space--margin-bottom-l">
-  {{ content | safe }}
-</div>
-<ul class="list list--grid">
-  {% for article in collections.articles %}
-    {% if article.data.featured %}
-    <li class="list-item">
-      {{ articleCard(article) }}
-    </li>
-    {% endif %}
-  {% endfor %}
-</ul>
+{% block pageTitle %}Roodesign{% endblock %}
+
+{% block beforeContent %}{% endblock %}
+
+{% block main %}
+<main id="main">
+
+  <section class="homepage-hero container">
+    <h1 class="homepage-hero__headline">{{ hero_title }}</h1>
+    <div class="homepage-hero__intro prose">
+      {{ content | safe }}
+    </div>
+  </section>
+
+  <section class="homepage-articles">
+    <div class="container">
+      <h2 class="homepage-articles__heading">Articles</h2>
+      <div class="post-card-grid">
+
+        {%- set featuredIdx = 0 -%}
+        {% for article in collections.articles | reverse %}
+          {% if article.data.featured %}
+            {%- set colour = article.data.colour if article.data.colour else cardColours[featuredIdx % 7] -%}
+            {{ postCard(
+              title=article.data.title,
+              url=article.url,
+              date=article.date,
+              summary=article.data.summary,
+              colour=colour
+            ) }}
+            {%- set featuredIdx = featuredIdx + 1 -%}
+          {% endif %}
+        {% endfor %}
+
+      </div>
+    </div>
+  </section>
+
+</main>
 {% endblock %}

@@ -1,0 +1,17 @@
+{% macro postCard(title, url, date, summary, colour) %}
+  {%- set p = colour | palette if colour else null -%}
+  <article class="post-card"{% if p %} style="{{ p | paletteVars }}"{% endif %}>
+    <a href="{{ url }}" class="post-card__link">
+      <div class="post-card__body">
+        {% if date %}
+          <p class="post-card__meta">{{ date | date }}</p>
+        {% endif %}
+        <h2 class="post-card__title">{{ title }}</h2>
+        {% if summary %}
+          <p class="post-card__desc">{{ summary }}</p>
+        {% endif %}
+      </div>
+      <p class="post-card__cta" aria-hidden="true">&#8594;</p>
+    </a>
+  </article>
+{% endmacro %}

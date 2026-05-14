@@ -1,0 +1,109 @@
+@use "../core" as *;
+@use "sass:map";
+
+.post-card-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-xs);
+
+  @media #{map.get($bp, mid)} {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  @media #{map.get($bp, max)} {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.post-card {
+  background: var(--c-component-background);
+  color: var(--c-text);
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  transition: background 0.25s ease, color 0.25s ease, border-color 0.25s ease;
+  border: 1px solid var(--c-border);
+
+  @media (hover: hover) {
+    &:hover {
+      background: var(--colour-mid, var(--c-component-background-tint));
+      color: var(--colour-on-mid, var(--c-text));
+      border-color: transparent;
+    }
+  }
+
+  &__link {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    text-decoration: none;
+    color: inherit;
+    height: 100%;
+    padding: var(--space-m);
+
+    &:focus-visible {
+      @include focus-ring;
+    }
+  }
+
+  &__body {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-s);
+  }
+
+  &__meta {
+    @include type-family-alt;
+    font-size: var(--step--2);
+    text-transform: uppercase;
+    letter-spacing: 0.09em;
+    opacity: 0.6;
+    margin: 0;
+    transition: color 0.25s ease, opacity 0.25s ease;
+  }
+
+  @media (hover: hover) {
+    &:hover &__meta {
+      color: var(--colour-on-mid-secondary, var(--c-text-secondary));
+      opacity: 1;
+    }
+  }
+
+  &__title {
+    @include type-family-headline;
+    font-size: var(--step-3);
+    font-weight: bold;
+    line-height: var(--line-height--supertight);
+    letter-spacing: -0.023em;
+    margin: 0;
+    transition: color 0.25s ease;
+  }
+
+  &__desc {
+    font-size: var(--step--1);
+    opacity: 0.75;
+    margin: 0;
+    transition: color 0.25s ease, opacity 0.25s ease;
+  }
+
+  @media (hover: hover) {
+    &:hover &__desc {
+      color: var(--colour-on-mid, var(--c-text));
+    }
+  }
+
+  &__cta {
+    margin-top: var(--space-m);
+    margin-bottom: 0;
+    opacity: 0.5;
+    font-size: var(--step-1);
+    transition: opacity 0.25s ease, color 0.25s ease;
+  }
+
+  @media (hover: hover) {
+    &:hover &__cta {
+      color: var(--colour-on-mid, var(--c-text));
+      opacity: 1;
+    }
+  }
+}

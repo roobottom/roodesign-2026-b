@@ -1,9 +1,9 @@
 ---
-title: Hello
+title: Roodesign
 layout: layouts/home.njk
 section_id: home
 permalink: /index.html
+hero_title: Design for humans
+illumination: dark
 ---
-**You've found my website.** How _exciting_! Herein, you'll find all kinds of rubbish I've written. {.type-scale-4}
-
-Here's a few of my favorites… {.type-scale-3}
+I'm Jon Roobottom, a designer who uses human-centred design to help teams build better services, products, and processes.

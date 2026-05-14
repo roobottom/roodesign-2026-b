@@ -1,0 +1,89 @@
+@use "../core" as *;
+@use "../layout/spacing" as *;
+
+// ---------------------------------------------------------------------------
+// Hero
+// ---------------------------------------------------------------------------
+
+.homepage-hero {
+  padding-top: var(--space-xl);
+  padding-bottom: var(--space-xl);
+
+  &__headline {
+    @include type-family-headline;
+    font-size: var(--step-5);
+    font-weight: bold;
+    letter-spacing: -0.023em;
+    line-height: var(--line-height--supertight);
+    @include space-range(margin-bottom, s, m);
+  }
+
+  &__intro {
+    font-size: var(--step-1);
+    max-width: 48ch;
+    color: var(--c-text-secondary);
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Articles grid
+// ---------------------------------------------------------------------------
+
+.homepage-articles {
+  &__heading {
+    @include type-family-alt;
+    font-size: var(--step--1);
+    text-transform: uppercase;
+    letter-spacing: 0.09em;
+    opacity: 0.6;
+    margin-bottom: var(--space-s);
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Featured list (legacy — kept for reference)
+// ---------------------------------------------------------------------------
+
+.homepage-featured {
+  &__list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    border-top: 1px solid var(--c-border);
+  }
+
+  &__item {
+    border-bottom: 1px solid var(--c-border);
+  }
+
+  &__link {
+    display: block;
+    padding-top: var(--space-m);
+    padding-bottom: var(--space-m);
+    text-decoration: none;
+    color: var(--c-text);
+
+    &:focus-visible {
+      @include focus-ring;
+    }
+
+    &:hover .homepage-featured__title {
+      text-decoration: underline;
+      text-decoration-thickness: 2px;
+    }
+  }
+
+  &__title {
+    @include type-family-headline;
+    font-size: var(--step-1);
+    font-weight: bold;
+    color: var(--c-link);
+    display: block;
+    margin-bottom: var(--space-xs);
+  }
+
+  &__description {
+    color: var(--c-text-secondary);
+    margin: 0;
+  }
+}
