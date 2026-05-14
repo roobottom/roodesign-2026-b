@@ -42,7 +42,9 @@ const { buildResponsiveImageManifest, renderResponsiveImage, getResponsiveImageU
 // Shortcodes
 const exampleShortcode = require('./lib/shortcodes/example.js')
 const figureShortcode = require('./lib/shortcodes/figure.js')
+const quoteShortcode = require('./lib/shortcodes/quote.js')
 const statusNamesShortcode = require('./lib/shortcodes/statusNames.js')
+const quoteBlockPlugin = require('./lib/markdown/quote-block.js')
 
 module.exports = function (eleventyConfig) {
 
@@ -165,6 +167,7 @@ module.exports = function (eleventyConfig) {
 
   // {% statusNames %} — renders the status legend table
   eleventyConfig.addShortcode('statusNames', () => statusNamesShortcode())
+  eleventyConfig.addShortcode('quote', (attribution) => quoteShortcode(attribution))
 
   // ---------------------------------------------------------------------------
   // Markdown
@@ -175,6 +178,7 @@ module.exports = function (eleventyConfig) {
     .use(markdownItDiv)
     .use(markdownItAbbr)
     .use(markdownItFootnote)
+    .use(quoteBlockPlugin)
     .use(markdownItShortcode, {
       example: {
         render: (attrs, env) => exampleShortcode(attrs.url || attrs.name || attrs.variant || 'default', attrs.height, env)

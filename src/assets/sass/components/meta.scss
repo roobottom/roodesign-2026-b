@@ -1,6 +1,6 @@
 @use "../core" as *;
 .meta {
-  color: var(--c-text-light);
+  color: var(--c-text-secondary);
   @include type-family-alt;
   font-size: var(--step--2);
 
@@ -9,7 +9,7 @@
   }
 
   a {
-    @include type-style-link(var(--c-text-light), $underline: underline);
+    @include type-style-link(var(--c-text-secondary), $underline: underline);
   }
 
 

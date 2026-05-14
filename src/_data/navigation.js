@@ -24,10 +24,6 @@ module.exports = {
       title: 'About',
       id: 'about'
     }, {
-      url: '/contact/',
-      title: 'Contact me',
-      id: 'contact'
-    }, {
       url: '/kanga/',
       title: 'Design system',
       id: 'kanga'
@@ -35,10 +31,6 @@ module.exports = {
       url: '/subjects/',
       title: 'Subjects',
       id: 'subjects'
-    }, {
-      url: '/time-travel/',
-      title: 'Choose a style',
-      id: 'time-travel'
     }
   ],
   elsewhere: [

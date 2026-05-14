@@ -1,54 +1,125 @@
-// Illumination — body background and text driven by data-illumination attribute.
+@use "sass:color";
+
+// All colour tokens live here — default values in :root, then overridden per
+// illumination context below. Components use --c-* tokens exclusively and
+// never need to know about the illumination system directly.
 //
 // Pages set data-illumination="light" (default) or "dark" via frontmatter.
 // When a `colour` is also set, the 7-step palette vars (--colour-xx-dark …
-// --colour-xx-light) are injected inline on <body> and the palette extremes
-// are used for background/text. Without a colour, dark pages fall back to a
-// neutral dark; light pages are left untouched (normal body styles apply).
+// --colour-xx-light) are injected inline on <body> and palette extremes
+// drive background/text. Without a colour, dark pages fall back to neutral
+// dark; light pages are left untouched (normal body styles apply).
 //
-// The [style*="--colour-xx-light"] guard prevents palette-background rules
-// firing on light pages that have no colour set.
-//
-// Tier 1 token remapping: override --c-* semantic tokens here so every
-// component adapts automatically without touching individual component files.
+// The [style*="--colour-xx-light"] guard prevents palette rules firing on
+// light pages that have no colour set.
 
 $illumination-dark-bg:   #1a1a1a;
 $illumination-dark-text: #f5f5f5;
 
+// ---------------------------------------------------------------------------
+// Default (light) tokens
+// ---------------------------------------------------------------------------
+:root {
+  --c-site-header-background:    white;
+  --c-site-header-border-bottom: none;
+
+  --c-site-footer-background:    none;
+  --c-site-footer-border-top:    1px solid var(--c-border);
+
+  --c-border:                    #ccc;
+  --c-background:                #FFF;
+  --c-focus:                     rgba(0, 0, 0, 0.2);
+
+  --c-text:                      #333333;
+  --c-text-secondary:                #666666;
+
+  --c-component-background:      white;
+  --c-component-background-tint: #F1F1F1;
+  --card-background:             var(--c-component-background);
+  --card-text:                   var(--c-text);
+  --card-link:                   var(--c-link);
+  --card-meta-text:              var(--c-text-secondary);
+  --card-cover-blend:            normal;
+  --card-pattern-from:           var(--c-link);
+  --card-pattern-to:             var(--c-link-hover);
+
+  --c-link:                      #333333;
+  --c-link-hover:                #023047;
+  --c-link-focus:                #0573aa;
+
+  --c-hr:                        var(--c-border);
+
+  --c-error:                     #ff0054;
+  --c-error-focus:               rgba(255, 0, 84, 0.5);
+
+  --c-table-background:          transparent;
+
+  --c-code-background:           #f5f5f5;
+  --c-code-border:               1px solid #e0e0e0;
+
+  --c-callout-background:        #{color.adjust(#FFB703, $lightness: 45%, $space: hsl)};
+  --c-callout-border:            #FFB703;
+  --c-callout-text:              #333333;
+
+  --c-form-tint:                 var(--c-text);
+  --c-form-focus:                rgba(0, 0, 0, 0.2);
+
+  --subnav-border:               1px solid var(--c-border);
+  --subnav-background:           #FFF;
+  --subnav-tint:                 #F1F1F1;
+}
+
+// ---------------------------------------------------------------------------
+// Light page with palette
+// ---------------------------------------------------------------------------
 body[data-illumination="light"][style*="--colour-xx-light"] {
   background-color: var(--colour-xx-light);
   color: var(--colour-xx-dark);
 
+  --c-background:                var(--colour-xx-light);
   --c-text:                      var(--colour-xx-dark);
-  --c-text-light:                var(--colour-x-dark);
-  --c-link:                      var(--colour-dark);
+  --c-text-secondary:                var(--colour-x-dark);
+  --c-link:                      var(--colour-x-dark);
   --c-link-hover:                var(--colour-xx-dark);
   --c-link-focus:                var(--colour-dark);
   --c-border:                    var(--colour-x-light);
   --c-focus:                     var(--colour-light);
   --c-site-header-background:    transparent;
   --c-site-header-border-bottom: 1px solid var(--colour-x-light);
+  --c-site-footer-background:    transparent;
+  --c-site-footer-border-top:    1px solid var(--colour-x-light);
   --c-component-background:      white;
   --c-component-background-tint: var(--colour-xx-light);
   --c-code-background:           var(--colour-x-light);
   --c-code-border:               1px solid var(--colour-light);
+  --card-pattern-from:           var(--colour-mid);
+  --card-pattern-to:             var(--colour-dark);
 }
 
+// ---------------------------------------------------------------------------
+// Dark page (with or without palette)
+// ---------------------------------------------------------------------------
 body[data-illumination="dark"] {
   background-color: var(--colour-xx-dark, #{$illumination-dark-bg});
   color: var(--colour-xx-light, #{$illumination-dark-text});
 
+  --c-background:                var(--colour-xx-dark,  #{$illumination-dark-bg});
   --c-text:                      var(--colour-xx-light, #{$illumination-dark-text});
-  --c-text-light:                var(--colour-x-light, #aaaaaa);
-  --c-link:                      var(--colour-light,   #aaaaaa);
-  --c-link-hover:                var(--colour-x-light, #cccccc);
-  --c-link-focus:                var(--colour-light,   #aaaaaa);
-  --c-border:                    var(--colour-dark,    #444444);
-  --c-focus:                     var(--colour-mid,     #888888);
-  --c-site-header-background:    var(--colour-xx-dark, #{$illumination-dark-bg});
+  --c-text-secondary:                var(--colour-x-light,  #aaaaaa);
+  --c-link:                      var(--colour-xx-light,  #{$illumination-dark-text});
+  --c-link-hover:                var(--colour-xx-light,  #{$illumination-dark-text});
+  --c-link-focus:                var(--colour-xx-light,  #{$illumination-dark-text});
+  --c-border:                    var(--colour-dark,     #444444);
+  --c-focus:                     var(--colour-mid,      #888888);
+  --c-site-header-background:    var(--colour-xx-dark,  #{$illumination-dark-bg});
   --c-site-header-border-bottom: 1px solid var(--colour-dark, #444444);
-  --c-component-background:      var(--colour-x-dark,  #2a2a2a);
-  --c-component-background-tint: var(--colour-dark,    #333333);
-  --c-code-background:           var(--colour-x-dark,  #2a2a2a);
-  --c-code-border:               1px solid var(--colour-dark, #444444);
+  --c-site-footer-background:    var(--colour-xx-dark,  #{$illumination-dark-bg});
+  --c-site-footer-border-top:    1px solid var(--colour-dark, #444444);
+  --c-component-background:      var(--colour-x-dark,   #2a2a2a);
+  --c-component-background-tint: var(--colour-dark,     #333333);
+  // Keep code blocks light so Prism's light-theme token colours remain readable
+  --c-code-background:           white;
+  --c-code-border:               1px solid #e0e0e0;
+  --card-pattern-from:           var(--colour-mid,  #666666);
+  --card-pattern-to:             var(--colour-dark, #444444);
 }

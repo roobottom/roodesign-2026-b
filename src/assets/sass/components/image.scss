@@ -68,7 +68,7 @@ figure {
 figcaption {
   font-size: var(--step--2);
   margin-top: var(--space-xs);
-  color: var(--c-text-light);
+  color: var(--c-text-secondary);
   @include type-family-alt;
   @include container-prose-flow;
 }

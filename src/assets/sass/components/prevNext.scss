@@ -1,6 +1,6 @@
 @use "../core" as *;
 .prevNext {
-  color: var(--c-text-light);
+  color: var(--c-text-secondary);
   clear: both;
   @include type-family-alt;
   &-title {
@@ -23,7 +23,7 @@
     @include type-style-link;
   }
   &-date {
-    color: var(--c-text-light);
+    color: var(--c-text-secondary);
     font-size: var(--step--1);
   }
 }
