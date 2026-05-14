@@ -43,6 +43,25 @@ Each step in the scale also has a CSS variable.
 | 9 | `var(--step-9)` |
 | 10 | `var(--step-10)` |
 
+## Spanning steps with type-range
+
+For elements that should be smaller on narrow screens and larger on wide screens — beyond what a single step provides — use `type-range($min-step, $max-step)`. It compiles to a single `clamp()` spanning from the px value of one step to another.
+
+Both arguments must be valid step numbers (-2 to 10). Passing anything outside that range will cause the build to fail with an error.
+
+``` {.language-scss}
+@use "../core/settings" as *;
+
+.my-element {
+  font-size: #{type-range(5, 8)}; // step-5 at 320px → step-8 at 1100px
+}
+```
+
+| Argument | Description |
+| :- | :- |
+| `$min-step` | Step number at the narrow viewport (320px). |
+| `$max-step` | Step number at the wide viewport (1100px). |
+
 ## Advanced use
 
 The type and spacing systems are built on three Sass functions defined in `core/settings.scss`. Components and pages should use `var(--step-N)` — these functions are for system-level work only.
