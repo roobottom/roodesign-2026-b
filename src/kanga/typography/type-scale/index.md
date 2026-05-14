@@ -64,7 +64,7 @@ Both arguments must be valid step numbers (-2 to 10). Passing anything outside t
 
 ## Advanced use
 
-The type and spacing systems are built on three Sass functions defined in `core/settings.scss`. Components and pages should use `var(--step-N)` — these functions are for system-level work only.
+The type scale is built on a low-level Sass function in `core/settings.scss`. Components and pages should use `var(--step-N)` — this function is for system-level work only.
 
 ### `fluid($min, $max)`
 
@@ -74,20 +74,4 @@ Generates a `clamp()` that scales linearly between two px values across the site
 font-size: #{fluid(34, 52)}; // clamp(34px, …, 52px)
 ```
 
-### `rhythm($units)`
-
-Returns a fluid value expressed as a multiple of the body line-height (26px min, 28px max). Ties spacing and sizing to the same baseline as the text, so layout breathes in step with the type.
-
-``` {.language-scss}
-margin-bottom: #{rhythm(1)};   // one leading unit  ≈ 26–28px
-margin-bottom: #{rhythm(2)};   // two leading units ≈ 52–56px
-margin-bottom: #{rhythm(0.5)}; // half a unit       ≈ 13–14px
-```
-
-### `rhythm-px($min, $max)`
-
-Like `rhythm()` but accepts raw px values and converts them to leading units internally. Useful when you know the target size in pixels but want it locked to the rhythm system.
-
-``` {.language-scss}
-line-height: #{rhythm-px(38, 55)}; // scales from 38px to 55px, in rhythm units
-```
+For spacing equivalents, see `rhythm()` and `rhythm-px()` on the [Spacing](/kanga/spacing/) page.
