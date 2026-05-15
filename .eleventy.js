@@ -12,6 +12,9 @@ const markdownItShortcode = require('markdown-it-shortcode-tag')
 // Colour palette
 const { generatePalette } = require('./lib/colour-palette.js')
 
+// Image utilities
+const { generateCollage } = require('./lib/images/collage.js')
+
 const COLOUR_ALIASES = {
   // extend here to support named colours in frontmatter
 }
@@ -72,10 +75,7 @@ module.exports = function (eleventyConfig) {
   // Passthrough copies
   // ---------------------------------------------------------------------------
   eleventyConfig.addPassthroughCopy('src/assets/js')
-  // Copy fonts to /fonts/ to match $path-fonts: '/fonts/' in SCSS settings
-  eleventyConfig.addPassthroughCopy({ 'src/assets/static/fonts': 'fonts' })
-  eleventyConfig.addPassthroughCopy('src/assets/static/sprites')
-  eleventyConfig.addPassthroughCopy('src/assets/static/favicon.ico')
+  eleventyConfig.addPassthroughCopy('src/assets/static')
 
   // ---------------------------------------------------------------------------
   // Filters
@@ -96,6 +96,9 @@ module.exports = function (eleventyConfig) {
   )
   eleventyConfig.addFilter('responsiveImageUrl', (url, preset = 'card') =>
     getResponsiveImageUrl({ url, preset })
+  )
+  eleventyConfig.addFilter('photoCollage', async (urls, options = {}) =>
+    generateCollage(urls, options)
   )
   eleventyConfig.addFilter('taggedContent', (collection = [], tag) => {
     if (!tag) {

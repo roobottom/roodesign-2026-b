@@ -1,0 +1,5 @@
+---
+title: Responsive image — URL filter
+css: ".bg { background-image: url(var(--img)); background-size: cover; background-position: center; height: 300px; }"
+---
+<div class="bg" style="--img: url('{{ "/images/articles/brownhills/middleton-bridge.jpeg" | responsiveImageUrl("wide") }}')"></div>
